@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: where.to.refuel.server
+---
+testFramework: junit
+sourceLanguage: java

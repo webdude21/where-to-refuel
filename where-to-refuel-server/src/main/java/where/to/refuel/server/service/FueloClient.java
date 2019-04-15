@@ -13,20 +13,6 @@ public class FueloClient implements FuelPriceService {
 
   @Override
   public List<PetrolStations> findByLocationAndFuelType(Location location, FuelType fuelType) {
-    validateLocation(location);
     return Collections.emptyList();
-  }
-
-  private void validateLocation(Location location) {
-    double latitude = location.getLatitude();
-    double longitude = location.getLongitude();
-
-    if (latitude < -90 || latitude > 90) {
-      throw new IllegalArgumentException("Latitude should be a positive number.");
-    }
-
-    if (longitude < -180 || latitude > 180) {
-      throw new IllegalArgumentException("Longitude should be a positive number.");
-    }
   }
 }

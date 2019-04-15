@@ -12,13 +12,13 @@ import javax.inject.Inject;
 @MicronautTest
 class HealthControllerTest {
 
-    @Inject
-    @Client("/")
-    RxHttpClient client;
+  @Inject
+  @Client("/")
+  RxHttpClient client;
 
-    @Test
-    void theHealthEndpointShouldWork() {
-        String result = client.toBlocking().retrieve(HttpRequest.GET("/health"), String.class);
-        Assertions.assertEquals("{\"status\":\"healthy\"}", result);
-    }
+  @Test
+  void theHealthEndpointShouldWork() {
+    String result = client.toBlocking().retrieve(HttpRequest.GET("/health"), String.class);
+    Assertions.assertEquals("{\"status\":\"healthy\"}", result);
+  }
 }

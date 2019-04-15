@@ -18,11 +18,14 @@ public class FueloClient implements FuelPriceService {
   }
 
   private void validateLocation(Location location) {
-    if (location.getLatitude() < 0) {
+    double latitude = location.getLatitude();
+    double longitude = location.getLongitude();
+
+    if (latitude < -90 || latitude > 90) {
       throw new IllegalArgumentException("Latitude should be a positive number.");
     }
 
-    if (location.getLongitude() < 0) {
+    if (longitude < -180 || latitude > 180) {
       throw new IllegalArgumentException("Longitude should be a positive number.");
     }
   }

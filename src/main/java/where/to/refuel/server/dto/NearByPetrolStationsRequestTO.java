@@ -1,14 +1,16 @@
 package where.to.refuel.server.dto;
 
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import where.to.refuel.server.model.FuelType;
 import where.to.refuel.server.model.Location;
 
-@Value
+@Data
+@NoArgsConstructor
 public class NearByPetrolStationsRequestTO {
-  final double latitude;
-  final double longitude;
-  final String fuel;
+  private double latitude;
+  private double longitude;
+  private String fuel;
 
   private NearByPetrolStationsRequestTO(Location location, FuelType fuelType) {
     latitude = location.getLatitude();

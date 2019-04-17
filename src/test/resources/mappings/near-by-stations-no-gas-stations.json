@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/near?lat=0.12&lon=0.213&fuel=lpg&key=xxxxxxxxxxx"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "status": "error",
+      "error_message": "no gasstations found"
+    }
+  }
+}

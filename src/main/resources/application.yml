@@ -1,0 +1,11 @@
+micronaut:
+  application:
+    name: where-to-refuel-server
+  http:
+    services:
+      fuelo:
+        urls:
+          - https://fuelo.net
+        pool:
+          enabled: true
+          max-connections: 50

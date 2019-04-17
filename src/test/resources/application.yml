@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: where-to-refuel-server
+  http:
+    services:
+      fuelo:
+        urls:
+          - http://localhost:8090
+fuelo:
+  apikey: "xxxxxxxxxxx"

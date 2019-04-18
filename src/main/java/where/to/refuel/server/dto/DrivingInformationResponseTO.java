@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
@@ -16,9 +17,9 @@ public class DrivingInformationResponseTO {
   private List<DrivingInformationTO> drivingInformationTOs;
 
   @JsonProperty("resourceSets")
-  private void unpackNested(List<Object> objects) {
-    var resources = ((LinkedHashMap) objects.get(0)).get("resources");
-    ArrayList<LinkedHashMap<String, ? extends Number>> results = (ArrayList<LinkedHashMap<String, ? extends Number>>) ((LinkedHashMap) ((ArrayList) resources).get(0)).get("results");
+  private void unpackNested(List<Map<String, List>> objects) {
+    var resources = objects.get(0).get("resources").get(0);
+    ArrayList<LinkedHashMap<String, ? extends Number>> results = (ArrayList<LinkedHashMap<String, ? extends Number>>) ((LinkedHashMap) resources).get("results");
     drivingInformationTOs = results.stream().map(DrivingInformationTO::from).collect(Collectors.toList());
   }
 }

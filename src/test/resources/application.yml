@@ -6,5 +6,12 @@ micronaut:
       fuelo:
         urls:
           - http://localhost:8090
+      bing:
+        urls:
+          - http://localhost:8090
 fuelo:
-  apikey: "xxxxxxxxxxx"
+  apikey: xxxxxxxxxxx
+bing:
+  apikey: xxxxxxxxxxx
+  base: REST
+  version: v1

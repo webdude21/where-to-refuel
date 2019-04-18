@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import where.to.refuel.server.model.Brand;
-import where.to.refuel.server.model.Location;
+import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.PetrolStation;
 
 @Data
@@ -30,6 +30,6 @@ public class PetrolStationTO {
   private double distance;
 
   public PetrolStation toPetrolStation() {
-    return PetrolStation.of(id, Brand.of(brandId, brandName), Location.of(latitude, longitude), name, city, address, distance);
+    return new PetrolStation(id, name, city, address, Coordinates.of(latitude, longitude), distance, Brand.of(brandId, name));
   }
 }

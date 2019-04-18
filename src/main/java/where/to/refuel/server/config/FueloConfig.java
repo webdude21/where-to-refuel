@@ -7,10 +7,10 @@ import io.micronaut.context.annotation.Requires;
 @Requires(property = FueloConfig.PREFIX)
 @Requires(property = FueloConfig.PREFIX + ".apikey")
 public class FueloConfig {
-  public static final String PREFIX = "fuelo";
+  static final String PREFIX = "fuelo";
   private String apikey;
 
-  public String getApikey() {
+  String getApikey() {
     return apikey;
   }
 

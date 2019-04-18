@@ -1,0 +1,40 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/REST/v1/Routes/DistanceMatrix?key=xxxxxxxxxxx",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "travelMode": "driving",
+          "origins": [
+            {
+              "latitude": 0.12,
+              "longitude": 0.213
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "authenticationResultCode": "ValidCredentials",
+      "errorDetails": [
+        "One or more parameters are not valid.",
+        ": Too few points given."
+      ],
+      "resourceSets": [],
+      "statusCode": 400,
+      "statusDescription": "Bad Request"
+    }
+  }
+}

@@ -9,3 +9,12 @@ micronaut:
         pool:
           enabled: true
           max-connections: 50
+      bing:
+        urls:
+          - https://dev.virtualearth.net
+        pool:
+          enabled: true
+          max-connections: 50
+bing:
+  base: REST
+  version: v1

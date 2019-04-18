@@ -1,14 +1,16 @@
 package where.to.refuel.server.model;
 
-import lombok.Value;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Value(staticConstructor = "of")
-public class PetrolStation {
-  int id;
-  Brand brand;
-  Location location;
-  String name;
-  String city;
-  String address;
-  double distance;
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class PetrolStation extends Location {
+  private final Brand brand;
+
+  public PetrolStation(int id, String name, String city, String address, Coordinates coordinates,
+                       double absoluteDistance, Brand brand) {
+    super(id, name, city, address, coordinates, absoluteDistance);
+    this.brand = brand;
+  }
 }

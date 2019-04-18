@@ -4,6 +4,8 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.uri.UriTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import where.to.refuel.server.config.BingConfig;
 import where.to.refuel.server.dto.DrivingInformationRequestTO;
 import where.to.refuel.server.dto.DrivingInformationResponseTO;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class BingRouteService implements DrivingInformationService {
 
+  private static final Logger log = LoggerFactory.getLogger(DrivingInformationService.class);
   private final RxHttpClient httpClient;
   private final BingConfig bingConfig;
 
@@ -33,24 +36,28 @@ public class BingRouteService implements DrivingInformationService {
 
   @Override
   public <T extends Location> List<T> findDrivingInformationFor(Coordinates origin, List<T> destinations) {
+    if (destinations.size() == 0) {
+      log.info("Calling the service without destinations, origin is: {}", origin);
+      return destinations;
+    }
+
     var destinationCoords = destinations.stream().map(Location::getCoordinates).collect(Collectors.toList());
     var requestTO = DrivingInformationRequestTO.of(Collections.singletonList(origin), destinationCoords);
     var uriTemplate = UriTemplate.of("/{base}/{version}/Routes/DistanceMatrix?key={apikey}");
     var response = httpClient.exchange(HttpRequest.POST(uriTemplate.expand(bingConfig), requestTO), DrivingInformationResponseTO.class);
     var body = response.blockingFirst().body();
+
     return Optional.ofNullable(body)
       .map(DrivingInformationResponseTO::getDrivingInformationTOs)
       .stream()
       .flatMap(Collection::stream)
-      .map(di -> enrichLocation(destinations, di))
+      .map(di -> addDrivingInfo(destinations, di))
       .collect(Collectors.toList());
   }
 
-  private <T extends Location> T enrichLocation(List<T> destinations, DrivingInformationTO di) {
+  private <T extends Location> T addDrivingInfo(List<T> destinations, DrivingInformationTO di) {
     var location = destinations.get(di.getDestinationIndex());
     location.setDrivingInfo(di.toDrivingInfo());
     return location;
   }
-
-
 }

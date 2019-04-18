@@ -4,7 +4,6 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.uri.UriTemplate;
-import io.reactivex.Flowable;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.dto.PetrolStationTO;
 import where.to.refuel.server.dto.PetrolStationsResponseTO;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class FueloServiceClient implements PetrolStationsService {
-
   private final RxHttpClient httpClient;
   private final DrivingInformationService drivingInformationService;
 

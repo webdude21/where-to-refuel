@@ -41,6 +41,8 @@ public class FueloServiceClient implements PetrolStationsService {
       .map(PetrolStationTO::toPetrolStation)
       .collect(Collectors.toList());
 
-    return drivingInformationService.findDrivingInformationFor(coordinates, petrolStations);
+    var petrolStationsWithDrivingInfo = drivingInformationService.findDrivingInformationFor(coordinates, petrolStations);
+
+    return petrolStationsWithDrivingInfo.stream().filter(PetrolStation::hasValidDistance).collect(Collectors.toList());
   }
 }

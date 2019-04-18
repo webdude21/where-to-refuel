@@ -36,7 +36,7 @@ class FuelServiceTest {
   void findByLocationShouldReturnValidResults() {
     List<PetrolStation> result = petrolStationsService.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
     assertNotNull(result);
-    assertEquals(100, result.size());
+    assertEquals(99, result.size());
   }
 
   @Test

@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/api/near?lat=0.12&lon=0.213&fuel=lpg&key=xxxxxxxxxxx"
+    "url": "/api/near?lat=0.12&lon=0.213&fuel=lpg&limit=50&key=xxxxxxxxxxx"
   },
   "response": {
     "status": 200,

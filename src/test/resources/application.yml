@@ -3,6 +3,12 @@ micronaut:
     name: where-to-refuel-server
   http:
     services:
+      fuelowebsite:
+        urls:
+          - http://localhost:8090
+        pool:
+          enabled: true
+          max-connections: 50
       fuelo:
         urls:
           - http://localhost:8090

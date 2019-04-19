@@ -22,6 +22,6 @@ class CoordinatesTest {
   @Test
   void testThatToStringWorks() {
     var coordinates = Coordinates.of(21.2123, 31.3215);
-    assertEquals("Coordinates(latitude=21.2123, longitude=31.3215)", coordinates.toString());
+    assertEquals("Coordinates(lat=21.2123, lon=31.3215)", coordinates.toString());
   }
 }

@@ -1,4 +1,4 @@
-package where.to.refuel.server.service;
+package where.to.refuel.server.model.service;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import io.micronaut.test.annotation.MicronautTest;
@@ -36,7 +36,7 @@ class FuelServiceTest {
   void findByLocationShouldReturnValidResults() {
     List<PetrolStation> result = petrolStationsService.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
     assertNotNull(result);
-    assertEquals(99, result.size());
+    assertEquals(50, result.size());
   }
 
   @Test

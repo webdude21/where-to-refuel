@@ -5,10 +5,11 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Optional;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PetrolStation extends Location {
   private final Brand brand;
+  private PriceInformation priceInformation;
 
   public PetrolStation(int id, String name, String city, String address, Coordinates coordinates,
                        double absoluteDistance, Brand brand) {

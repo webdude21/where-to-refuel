@@ -1,4 +1,4 @@
-package where.to.refuel.server.service;
+package where.to.refuel.server.model.service;
 
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;

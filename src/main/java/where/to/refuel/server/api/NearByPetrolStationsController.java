@@ -8,8 +8,8 @@ import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;
 import where.to.refuel.server.model.PetrolStation;
-import where.to.refuel.server.service.FueloServiceClient;
-import where.to.refuel.server.service.PetrolStationsService;
+import where.to.refuel.server.model.service.FueloServiceClient;
+import where.to.refuel.server.model.service.PetrolStationsService;
 
 import javax.inject.Inject;
 import java.util.List;

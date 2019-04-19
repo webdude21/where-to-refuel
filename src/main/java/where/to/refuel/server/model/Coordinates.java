@@ -19,7 +19,7 @@ public final class Coordinates {
   }
 
   /**
-   * Creates a new location object, throws an IllegalArgumentException if the latitude is greater than 90 and less than -90
+   * Creates a new location object, throws an IllegalArgumentException if the lat is greater than 90 and less than -90
    * or Longitude is greater than 180 and less than -180
    *
    * @param latitude double between -90 and 90

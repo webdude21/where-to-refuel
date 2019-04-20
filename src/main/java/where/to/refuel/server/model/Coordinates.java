@@ -1,16 +1,12 @@
 package where.to.refuel.server.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Value
 public final class Coordinates {
 
-  final double latitude;
-  final double longitude;
+  double latitude;
+  double longitude;
 
   private Coordinates(double latitude, double longitude) {
     validateLocation(latitude, longitude);
@@ -22,7 +18,7 @@ public final class Coordinates {
    * Creates a new location object, throws an IllegalArgumentException if the lat is greater than 90 and less than -90
    * or Longitude is greater than 180 and less than -180
    *
-   * @param latitude double between -90 and 90
+   * @param latitude  double between -90 and 90
    * @param longitude double between -180 and 180
    * @return Location
    */

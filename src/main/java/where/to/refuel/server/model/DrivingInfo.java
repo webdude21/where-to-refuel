@@ -4,6 +4,6 @@ import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class DrivingInfo {
-  private final double distance;
-  private final double duration;
+  double distance;
+  double duration;
 }

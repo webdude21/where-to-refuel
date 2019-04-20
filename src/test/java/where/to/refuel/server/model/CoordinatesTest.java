@@ -15,8 +15,8 @@ class CoordinatesTest {
   void creatingValidCoordinatesCorrectlyCreated() {
     var coordinates = Coordinates.of(21.2123, 31.3215);
     assertNotNull(coordinates);
-    assertEquals(21.2123, coordinates.latitude);
-    assertEquals(31.3215, coordinates.longitude);
+    assertEquals(21.2123, coordinates.getLatitude());
+    assertEquals(31.3215, coordinates.getLongitude());
   }
 
   @Test

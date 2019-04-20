@@ -1,4 +1,4 @@
-export async function getNearestPetrolStations({latitude, longitude}, fuelType) {
-  return fetch(`/near-by-petrol-stations?latitude=${latitude}&longitude=${longitude}&fuel=${fuelType}`)
-    .then(res => res.json());
+export async function getNearestPetrolStations({ latitude, longitude }, fuelType) {
+  let responsePromise = await fetch(`/near-by-petrol-stations?latitude=${latitude}&longitude=${longitude}&fuel=${fuelType}`);
+  return responsePromise.json();
 }

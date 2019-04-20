@@ -1,31 +1,25 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import {getNearestPetrolStations} from "../service/BackendService";
+import { getNearestPetrolStations } from "../service/BackendService";
+import { PetrolStationList } from "./PetrolStationList";
 
 class App extends Component {
 
-  componentDidMount() {
-    getNearestPetrolStations({latitude: 42.6567825, longitude: 23.2857181}, "LPG")
-      .then(res => console.log(res));
+  constructor(props) {
+    super(props);
+    this.state = { nearByPetrolStations: [] };
+  }
+
+  async componentDidMount() {
+    const nearByPetrolStations = await getNearestPetrolStations({ latitude: 42.6567825, longitude: 23.2857181 }, "LPG");
+    this.setState({ nearByPetrolStations });
   }
 
   render() {
+    const { nearByPetrolStations } = this.state;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <PetrolStationList petrolStations={nearByPetrolStations}/>
     );
   }
 }

@@ -4,7 +4,6 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.validation.Validated;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;

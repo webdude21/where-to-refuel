@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import {getNearestPetrolStations} from "../service/BackendService";
 
 class App extends Component {
+
+  componentDidMount() {
+    getNearestPetrolStations({latitude: 42.6567825, longitude: 23.2857181}, "LPG")
+      .then(res => console.log(res));
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>

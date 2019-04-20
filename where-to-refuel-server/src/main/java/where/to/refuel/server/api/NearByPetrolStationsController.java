@@ -1,9 +1,10 @@
 package where.to.refuel.server.api;
 
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.validation.Validated;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;
@@ -13,6 +14,9 @@ import where.to.refuel.server.model.service.PetrolStationsService;
 
 import javax.inject.Inject;
 import java.util.List;
+
+import static io.micronaut.http.HttpHeaders.CACHE_CONTROL;
+import static io.micronaut.http.HttpResponse.ok;
 
 @Controller("/near-by-petrol-stations")
 public class NearByPetrolStationsController {
@@ -24,9 +28,10 @@ public class NearByPetrolStationsController {
     this.petrolStationsService = fuelPriceService;
   }
 
-  @Post(produces = MediaType.APPLICATION_JSON)
-  public List<PetrolStation> findNearByPetrolStations(@Body NearByPetrolStationsRequestTO requestTO) {
-    var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
-    return petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(requestTO.getFuel()));
+  @Get(value = "/{?request*}", produces = MediaType.APPLICATION_JSON)
+  public HttpResponse<List<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO request) {
+    var location = Coordinates.of(request.getLatitude(), request.getLongitude());
+    var result = petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(request.getFuel()));
+    return ok(result).header(CACHE_CONTROL, "public, immutable, max-age=31556926");
   }
 }

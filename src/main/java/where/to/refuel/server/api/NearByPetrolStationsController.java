@@ -1,7 +1,9 @@
 package where.to.refuel.server.api;
 
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.*;
+import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Post;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;
@@ -26,11 +28,5 @@ public class NearByPetrolStationsController {
   public List<PetrolStation> findNearByPetrolStations(@Body NearByPetrolStationsRequestTO requestTO) {
     var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
     return petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(requestTO.getFuel()));
-  }
-
-  @Get(produces = MediaType.APPLICATION_JSON)
-  public List<PetrolStation> findNearByPetrolStations(@QueryValue double latitude, @QueryValue double longitude, @QueryValue FuelType fuel) {
-    var location = Coordinates.of(latitude, longitude);
-    return petrolStationsService.findByLocationAndFuelType(location, fuel);
   }
 }

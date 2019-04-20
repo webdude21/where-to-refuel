@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import where.to.refuel.server.model.DrivingInfo;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +14,7 @@ public class DrivingInformationTO {
   private double travelDistance;
   private double travelDuration;
 
-  static DrivingInformationTO from(LinkedHashMap<String, ? extends Number> linkedHashMap) {
+  static DrivingInformationTO from(Map<String, ? extends Number> linkedHashMap) {
     var drivingInformationTO = new DrivingInformationTO();
     drivingInformationTO.setDestinationIndex(linkedHashMap.get("destinationIndex").intValue());
     drivingInformationTO.setOriginIndex(linkedHashMap.get("originIndex").intValue());

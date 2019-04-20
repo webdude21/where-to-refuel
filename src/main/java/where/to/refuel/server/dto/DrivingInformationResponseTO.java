@@ -17,6 +17,7 @@ public class DrivingInformationResponseTO {
   private List<DrivingInformationTO> drivingInformationTOs;
 
   @JsonProperty("resourceSets")
+  @SuppressWarnings("unchecked")
   private void unpackResult(List<Map<String, List>> objects) {
     var resources = objects.get(0).get("resources").get(0);
     ArrayList<LinkedHashMap<String, ? extends Number>> results = (ArrayList<LinkedHashMap<String, ? extends Number>>) ((LinkedHashMap) resources).get("results");

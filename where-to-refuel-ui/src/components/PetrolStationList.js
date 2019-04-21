@@ -9,7 +9,7 @@ export function PetrolStationList({ petrolStations }) {
       <tr>
         <th colSpan="2">Бензиностанция</th>
         <th colSpan="2">Информация за пътуването</th>
-        <th colSpan="3">Цена в лева за</th>
+        <th colSpan="3">Цена за</th>
       </tr>
       <tr>
         <th>марка</th>
@@ -18,7 +18,7 @@ export function PetrolStationList({ petrolStations }) {
         <th>време</th>
         <th>литър</th>
         <th>пътя</th>
-        <th>зареждането</th>
+        <th>всичко</th>
       </tr>
       </thead>
       <tbody>

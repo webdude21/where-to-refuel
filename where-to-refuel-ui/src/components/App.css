@@ -1,8 +1,9 @@
-table td, table th {
+table.petrol-station-list td, table.petrol-station-list thead th {
   text-align: center;
+  vertical-align: middle;
 }
 
-table, th, td {
+table.petrol-station-list, th, td {
   border: 1px solid black;
 }
 

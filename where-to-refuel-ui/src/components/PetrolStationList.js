@@ -12,6 +12,8 @@ export function PetrolStationList({ petrolStations }) {
         <th>Разстояние при шофиране</th>
         <th>Време за път</th>
         <th>Цена</th>
+        <th>Цена на пътя</th>
+        <th>Цена на зареждането</th>
       </tr>
       </thead>
       <tbody>

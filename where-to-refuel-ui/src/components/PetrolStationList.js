@@ -4,16 +4,21 @@ import { Table } from "reactstrap";
 
 export function PetrolStationList({ petrolStations }) {
   return (
-    <Table dark>
+    <Table dark responsive hover size="sm" className="petrol-station-list">
       <thead>
       <tr>
-        <th>Марка</th>
-        <th>Име</th>
-        <th>Разстояние при шофиране</th>
-        <th>Време за път</th>
-        <th>Цена</th>
-        <th>Цена на пътя</th>
-        <th>Цена на зареждането</th>
+        <th colSpan="2">Бензиностанция</th>
+        <th colSpan="2">Информация за пътуването</th>
+        <th colSpan="3">Цена в лева за</th>
+      </tr>
+      <tr>
+        <th>марка</th>
+        <th>име</th>
+        <th>разстояние</th>
+        <th>време</th>
+        <th>литър</th>
+        <th>пътя</th>
+        <th>зареждането</th>
       </tr>
       </thead>
       <tbody>

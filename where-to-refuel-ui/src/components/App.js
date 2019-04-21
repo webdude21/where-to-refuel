@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import { getNearestPetrolStations } from "../model/service/BackendService";
-import { PetrolStationList } from "./PetrolStationList";
-import { FuelTripInformationForm } from "./FuelTripInformationForm"
 import { calculateFuelTripCostInLitersPer100Km } from "../model/FuelTripCalculator";
 import { toPetrolStationViewModel } from "../model/ViewModelConverters";
 import { defaultPetrolStationSorter } from "../model/PetrolStations";
 import { getLocation } from "../model/service/LocationService";
 import fuelTypes from "../model/FuelTypes";
+import { FuelTripInformationForm } from "./FuelTripInformationForm";
+import { PetrolStationList } from "./PetrolStationList";
 
 class App extends Component {
 
@@ -31,9 +31,9 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.selectedFuel !== this.state.selectedFuel) {
-      this.getPetrolStationInformation(this.state.selectedFuel);
+      await this.getPetrolStationInformation(this.state.selectedFuel);
     }
   }
 
@@ -51,11 +51,11 @@ class App extends Component {
       .map(toPetrolStationViewModel);
 
     return (
-      <div>
+      <>
         <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged} fuelAmount={fuelAmount}
                                  fuelConsumption={fuelConsumption}/>
         <PetrolStationList petrolStations={nearByPetrolStationsViewModel}/>
-      </div>
+      </>
     );
   }
 }

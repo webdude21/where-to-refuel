@@ -2,7 +2,7 @@
   "name": "where-to-refuel-ui",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://where-to-refuel.herokuapp.com",
+  "homepage": "https://webdude.eu/refuel/",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",

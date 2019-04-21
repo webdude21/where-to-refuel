@@ -31,21 +31,21 @@ export class FuelTripInformationForm extends Component {
     return (
       <Form>
         <Row form>
-          <Col md={5}>
+          <Col md={4}>
             <InputGroup>
-              <InputGroupAddon addonType="append">Разход за 100 км в литри</InputGroupAddon>
+              <InputGroupAddon addonType="append">Разход за 100 км</InputGroupAddon>
               <Input min={0} max={100} type="number" step="0.5" value={fuelConsumption}
                      onChange={this.handleConsumptionChange}/>
             </InputGroup>
           </Col>
-          <Col md={5}>
+          <Col md={4}>
             <InputGroup>
               <InputGroupAddon addonType="append">Литри гориво които ще заредите</InputGroupAddon>
               <Input min={0} max={100} type="number" step="1" value={fuelAmount}
                      onChange={this.handleFuelAmountChange}/>
             </InputGroup>
           </Col>
-          <Col md={2}>
+          <Col md={4}>
             <Input type="select" name="select" onChange={this.handleSelectedFuelChange}>
               {fuelTypes.map(fuelType => <option value={fuelType.key} key={fuelType.key}>{fuelType.name}</option>)}
             </Input>

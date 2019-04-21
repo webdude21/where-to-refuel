@@ -6,18 +6,35 @@ import { FuelTripInformationForm } from "./FuelTripInformationForm"
 import { calculateFuelTripCostInLitersPer100Km } from "../model/FuelTripCalculator";
 import { toPetrolStationViewModel } from "../model/ViewModelConverters";
 import { defaultPetrolStationSorter } from "../model/PetrolStations";
+import { getLocation } from "../model/service/LocationService";
+import fuelTypes from "../model/FuelTypes";
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10 };
+    this.state = { nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10, selectedFuel: fuelTypes[0].key };
     this.handleFuelTripInfoChanged = this.handleFuelTripInfoChanged.bind(this);
+    this.getPetrolStationInformation = this.getPetrolStationInformation.bind(this);
   }
 
   async componentDidMount() {
-    const nearByPetrolStations = await getNearestPetrolStations({ latitude: 42.6567825, longitude: 23.2857181 }, "LPG");
-    this.setState({ nearByPetrolStations });
+    await this.getPetrolStationInformation(this.state.selectedFuel);
+  }
+
+  async getPetrolStationInformation(selectedFuel) {
+    try {
+      let nearByPetrolStations = await getNearestPetrolStations(await getLocation(), selectedFuel);
+      this.setState({ nearByPetrolStations })
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.selectedFuel !== this.state.selectedFuel) {
+      this.getPetrolStationInformation(this.state.selectedFuel);
+    }
   }
 
   handleFuelTripInfoChanged(val) {

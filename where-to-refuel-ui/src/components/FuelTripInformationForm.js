@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Col, Form, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
-import { FuelSelector } from "./FuelSelector";
+import fuelTypes from "../model/FuelTypes";
 
 export class FuelTripInformationForm extends Component {
   constructor(props) {
     super(props);
     this.handleConsumptionChange = this.handleConsumptionChange.bind(this);
     this.handleFuelAmountChange = this.handleFuelAmountChange.bind(this);
+    this.handleSelectedFuelChange = this.handleSelectedFuelChange.bind(this);
   }
 
   handleFuelAmountChange({ target: { value } }) {
@@ -17,6 +18,11 @@ export class FuelTripInformationForm extends Component {
   handleConsumptionChange({ target: { value } }) {
     const { onFormDataChange } = this.props;
     onFormDataChange({ fuelConsumption: Number.parseFloat(value) });
+  }
+
+  handleSelectedFuelChange({ target: { value } }) {
+    const { onFormDataChange } = this.props;
+    onFormDataChange({ selectedFuel: value });
   }
 
   render() {
@@ -40,7 +46,9 @@ export class FuelTripInformationForm extends Component {
             </InputGroup>
           </Col>
           <Col md={2}>
-            <FuelSelector/>
+            <Input type="select" name="select" onChange={this.handleSelectedFuelChange}>
+              {fuelTypes.map(fuelType => <option value={fuelType.key} key={fuelType.key}>{fuelType.name}</option>)}
+            </Input>
           </Col>
         </Row>
       </Form>

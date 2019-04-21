@@ -1,6 +1,13 @@
 micronaut:
   application:
     name: where-to-refuel-server
+  server:
+    cors:
+      enabled: true
+      configurations:
+        web:
+          allowedOrigins:
+            - https://webdude.eu/refuel/
   router:
     static-resources:
       default:

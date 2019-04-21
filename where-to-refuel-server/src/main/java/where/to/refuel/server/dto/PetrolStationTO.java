@@ -30,6 +30,6 @@ public class PetrolStationTO {
   private double distance;
 
   public PetrolStation toPetrolStation() {
-    return new PetrolStation(id, name, city, address, Coordinates.of(latitude, longitude), distance, Brand.of(brandId, name));
+    return new PetrolStation(id, name, city, address, Coordinates.of(latitude, longitude), distance, Brand.of(brandId, brandName));
   }
 }

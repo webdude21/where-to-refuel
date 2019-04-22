@@ -31,6 +31,6 @@ public class NearByPetrolStationsController {
   public HttpResponse<List<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO request) {
     var location = Coordinates.of(request.getLatitude(), request.getLongitude());
     var result = petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(request.getFuel()));
-    return ok(result).header(CACHE_CONTROL, "public, immutable, max-age=31556926");
+    return ok(result).header(CACHE_CONTROL, "public, immutable, max-age=10800");
   }
 }

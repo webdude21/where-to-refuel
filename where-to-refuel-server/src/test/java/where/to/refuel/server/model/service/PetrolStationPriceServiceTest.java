@@ -8,7 +8,8 @@ import where.to.refuel.server.model.FuelType;
 import javax.inject.Inject;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.aMapWithSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @MicronautTest
@@ -23,6 +24,6 @@ class PetrolStationPriceServiceTest extends IntegrationTest {
   void findByLocationShouldReturnValidResults() {
     Map<Integer, Double> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
     assertNotNull(result);
-    assertEquals(50, result.size());
+    assertThat(result, aMapWithSize(50));
   }
 }

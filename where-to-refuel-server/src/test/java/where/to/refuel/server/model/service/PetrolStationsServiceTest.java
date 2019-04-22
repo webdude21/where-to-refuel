@@ -9,6 +9,9 @@ import where.to.refuel.server.model.PetrolStation;
 import javax.inject.Inject;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,13 +28,13 @@ class PetrolStationsServiceTest extends IntegrationTest {
   void findByLocationShouldReturnValidResults() {
     List<PetrolStation> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
     assertNotNull(result);
-    assertEquals(50, result.size());
+    assertThat(result, hasSize(50));
   }
 
   @Test
   void findByLocationShouldReturnEmptyListIfNoPetrolStationsAreFound() {
     List<PetrolStation> result = service.findByLocationAndFuelType(INVALID_COORDINATES, FuelType.LPG);
     assertNotNull(result);
-    assertEquals(0, result.size());
+    assertThat(result, empty());
   }
 }

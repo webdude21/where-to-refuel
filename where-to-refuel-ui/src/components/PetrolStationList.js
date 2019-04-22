@@ -7,13 +7,14 @@ export function PetrolStationList({ petrolStations }) {
     <Table dark responsive hover size="sm" className="petrol-station-list">
       <thead>
       <tr>
-        <th colSpan="2">Бензиностанция</th>
+        <th colSpan="3">Бензиностанция</th>
         <th colSpan="2">Информация за пътуването</th>
         <th colSpan="3">Цена за</th>
       </tr>
       <tr>
         <th>марка</th>
         <th>име</th>
+        <th>навигация</th>
         <th>разстояние</th>
         <th>време</th>
         <th>литър</th>

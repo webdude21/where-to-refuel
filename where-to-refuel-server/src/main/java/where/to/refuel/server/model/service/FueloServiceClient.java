@@ -38,15 +38,14 @@ public class FueloServiceClient implements PetrolStationsService {
   public List<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
     var requestTO = NearByPetrolStationsRequestTO.of(coordinates, fuelType);
     var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit={limit}").expand(requestTO);
-    var result = httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class);
+    var petrolStations = httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class)
+      .firstOrError()
+      .map(PetrolStationsResponseTO::getPetrolStationTOS)
+      .flattenAsFlowable(petrolStationTOS -> petrolStationTOS)
+      .map(PetrolStationTO::toPetrolStation)
+      .toList().blockingGet();
 
     var pricesMap = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType).blockingGet();
-
-    var petrolStations = Optional.ofNullable(result.blockingFirst().getPetrolStationTOS())
-      .stream()
-      .flatMap(Collection::stream)
-      .map(PetrolStationTO::toPetrolStation)
-      .collect(Collectors.toList());
 
     var petrolStationsWithDrivingInfo = drivingInformationService.findDrivingInformationFor(coordinates, petrolStations);
 

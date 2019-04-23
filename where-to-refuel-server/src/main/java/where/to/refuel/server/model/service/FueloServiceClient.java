@@ -40,7 +40,7 @@ public class FueloServiceClient implements PetrolStationsService {
     var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit={limit}").expand(requestTO);
     var result = httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class);
 
-    var pricesMap = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType);
+    var pricesMap = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType).blockingGet();
 
     var petrolStations = Optional.ofNullable(result.blockingFirst().getPetrolStationTOS())
       .stream()

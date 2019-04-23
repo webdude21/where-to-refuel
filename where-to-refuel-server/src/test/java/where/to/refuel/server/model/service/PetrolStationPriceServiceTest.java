@@ -22,7 +22,7 @@ class PetrolStationPriceServiceTest extends IntegrationTest {
 
   @Test
   void findByLocationShouldReturnValidResults() {
-    Map<Integer, Double> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
+    Map<Integer, Double> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG).blockingGet();
     assertNotNull(result);
     assertThat(result, aMapWithSize(50));
   }

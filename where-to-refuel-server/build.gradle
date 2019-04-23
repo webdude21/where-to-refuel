@@ -46,6 +46,7 @@ dependencies {
     testCompile "org.junit.jupiter:junit-jupiter-api"
     testCompile "com.github.tomakehurst:wiremock-jre8:2.23.2"
     testCompile "io.micronaut.test:micronaut-test-junit5"
+    testCompile "org.junit.jupiter:junit-jupiter-params"
     testImplementation('org.hamcrest:hamcrest-library:2.1')
     testRuntime "org.junit.jupiter:junit-jupiter-engine"
 }

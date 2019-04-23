@@ -6,8 +6,9 @@ micronaut:
       enabled: true
       configurations:
         web:
+          maxAge: 28800 # 8 hours
           allowedOrigins:
-            - https://webdude.eu
+            - ^http(|s):\/\/www\.webdude\.eu$
   http:
     services:
       fuelowebsite:

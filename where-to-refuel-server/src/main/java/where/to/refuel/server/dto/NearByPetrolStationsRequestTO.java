@@ -11,6 +11,7 @@ public class NearByPetrolStationsRequestTO {
   private double latitude;
   private double longitude;
   private String fuel;
+  private int limit = 50;
 
   private NearByPetrolStationsRequestTO(Coordinates coordinates, FuelType fuelType) {
     latitude = coordinates.getLatitude();

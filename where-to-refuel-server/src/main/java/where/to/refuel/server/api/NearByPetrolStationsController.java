@@ -20,6 +20,7 @@ import static io.micronaut.http.HttpResponse.ok;
 @Controller("/near-by-petrol-stations")
 public class NearByPetrolStationsController {
 
+  private static final String CACHE_FOR_6_HOURS = "public, immutable, max-age=21600";
   private PetrolStationsService petrolStationsService;
 
   @Inject
@@ -31,6 +32,6 @@ public class NearByPetrolStationsController {
   public HttpResponse<List<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO request) {
     var location = Coordinates.of(request.getLatitude(), request.getLongitude());
     var result = petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(request.getFuel()));
-    return ok(result).header(CACHE_CONTROL, "public, immutable, max-age=10800");
+    return ok(result).header(CACHE_CONTROL, CACHE_FOR_6_HOURS);
   }
 }

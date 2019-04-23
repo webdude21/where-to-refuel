@@ -37,7 +37,7 @@ public class FueloServiceClient implements PetrolStationsService {
   @Override
   public List<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
     var requestTO = NearByPetrolStationsRequestTO.of(coordinates, fuelType);
-    var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit=50").expand(requestTO);
+    var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit={limit}").expand(requestTO);
     var result = httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class);
 
     var pricesMap = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType);

@@ -9,10 +9,10 @@ export class PetrolStationList extends Component {
     this.handleTableHeaderClick = this.handleTableHeaderClick.bind(this);
   }
 
-  handleTableHeaderClick(e) {
+  handleTableHeaderClick({ target }) {
     const { onSortKeyChanged } = this.props;
-    const dataKey = e.target.getAttribute("data-sort");
-    onSortKeyChanged(dataKey);
+    const sortKey = target.getAttribute("data-sort");
+    onSortKeyChanged(sortKey);
   }
 
   render() {

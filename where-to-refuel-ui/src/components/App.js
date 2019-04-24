@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
     this.state = {
       nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10,
-      selectedFuel: fuelTypes[0].key, sortKey: "totalCost"
+      selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true
     };
     this.handleFuelTripInfoChanged = this.handleFuelTripInfoChanged.bind(this);
     this.handleSortKeyChange = this.handleSortKeyChange.bind(this);
@@ -42,7 +42,12 @@ class App extends Component {
   }
 
   handleSortKeyChange(sortKey) {
-    this.setState({ sortKey });
+    let sameSortKey = this.state.sortKey === sortKey;
+    if (sameSortKey) {
+      this.setState({ sortKey, ascending: !this.state.ascending });
+    } else {
+      this.setState({ sortKey, ascending: true })
+    }
   }
 
   handleFuelTripInfoChanged(val) {
@@ -63,7 +68,7 @@ class App extends Component {
   }
 
   getPetrolStations() {
-    const { fuelAmount, fuelConsumption, nearByPetrolStations, sortKey } = this.state;
+    const { fuelAmount, fuelConsumption, nearByPetrolStations, sortKey, ascending } = this.state;
 
     if (nearByPetrolStations.length === 0) {
       return nearByPetrolStations;
@@ -74,9 +79,15 @@ class App extends Component {
     const nearByPetrolWithFuelTripInfo = nearByPetrolStations
       .map(p => Object.assign(fuelTripPriceCalculator(p.drivingInfo.distance, p.priceInformation.price, fuelAmount), p));
 
-    return nearByPetrolWithFuelTripInfo
+    let viewModels = nearByPetrolWithFuelTripInfo
       .sort(getSorter(sortKey, nearByPetrolWithFuelTripInfo[0]))
       .map(toPetrolStationViewModel);
+
+    if (!ascending) {
+      viewModels.reverse();
+    }
+
+    return viewModels;
   }
 }
 

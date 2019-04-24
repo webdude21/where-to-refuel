@@ -8,7 +8,8 @@ micronaut:
         web:
           maxAge: 28800 # 8 hours
           allowedOrigins:
-            - https://webdude.eu/refuel
+            - https://webdude.eu
+            - https://www.webdude.eu
   http:
     services:
       fuelowebsite:

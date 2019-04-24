@@ -8,7 +8,7 @@ micronaut:
         web:
           maxAge: 28800 # 8 hours
           allowedOrigins:
-            - ^http(|s):\/\/www\.webdude\.eu$
+            - ^http(|s):\/\/(|www)\.webdude\.eu$
   http:
     services:
       fuelowebsite:

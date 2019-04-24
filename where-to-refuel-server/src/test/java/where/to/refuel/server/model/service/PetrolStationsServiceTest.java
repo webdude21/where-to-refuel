@@ -25,14 +25,14 @@ class PetrolStationsServiceTest extends IntegrationTest {
 
   @Test
   void findByLocationShouldReturnValidResults() {
-    List<PetrolStation> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG);
+    List<PetrolStation> result = service.findByLocationAndFuelType(VALID_COORDINATES, FuelType.LPG).toList().blockingGet();
     assertNotNull(result);
     assertThat(result, hasSize(50));
   }
 
   @Test
   void findByLocationShouldReturnEmptyListIfNoPetrolStationsAreFound() {
-    List<PetrolStation> result = service.findByLocationAndFuelType(INVALID_COORDINATES, FuelType.LPG);
+    List<PetrolStation> result = service.findByLocationAndFuelType(INVALID_COORDINATES, FuelType.LPG).toList().blockingGet();
     assertNotNull(result);
     assertThat(result, empty());
   }

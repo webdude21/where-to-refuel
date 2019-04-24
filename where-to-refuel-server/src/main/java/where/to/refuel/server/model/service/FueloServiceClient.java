@@ -4,6 +4,8 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.uri.UriTemplate;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.dto.PetrolStationTO;
 import where.to.refuel.server.dto.PetrolStationsResponseTO;
@@ -14,10 +16,8 @@ import where.to.refuel.server.model.PriceInformation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Singleton
 public class FueloServiceClient implements PetrolStationsService {
@@ -35,23 +35,27 @@ public class FueloServiceClient implements PetrolStationsService {
   }
 
   @Override
-  public List<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
+  public Flowable<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
+    var nearByPetrolStations = getNearByPetrolStations(coordinates, fuelType);
+    var pricesMapSingle = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType);
+    return nearByPetrolStations.zipWith(pricesMapSingle, (ps, priceMap) -> mergeResults(ps, coordinates, priceMap, fuelType))
+      .blockingGet();
+  }
+
+  private Single<List<PetrolStation>> getNearByPetrolStations(Coordinates coordinates, FuelType fuelType) {
     var requestTO = NearByPetrolStationsRequestTO.of(coordinates, fuelType);
     var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit={limit}").expand(requestTO);
-    var petrolStations = httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class)
+    return httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class)
       .firstOrError()
       .map(PetrolStationsResponseTO::getPetrolStationTOS)
       .flattenAsFlowable(petrolStationTOS -> petrolStationTOS)
       .map(PetrolStationTO::toPetrolStation)
-      .toList().blockingGet();
+      .toList();
+  }
 
-    var pricesMap = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType).blockingGet();
-
-    var petrolStationsWithDrivingInfo = drivingInformationService.findDrivingInformationFor(coordinates, petrolStations);
-
-    return petrolStationsWithDrivingInfo.stream()
+  private Flowable<PetrolStation> mergeResults(List<PetrolStation> ps, Coordinates coordinates, Map<Integer, Double> idToMap, FuelType fuelType) {
+    return drivingInformationService.findDrivingInformationFor(coordinates, ps)
       .filter(PetrolStation::hasValidDistance)
-      .peek(petrolStation -> petrolStation.setPriceInformation(PriceInformation.of(fuelType, pricesMap.get(petrolStation.getId()))))
-      .collect(Collectors.toList());
+      .map(petrolStation -> petrolStation.setPriceInformation(PriceInformation.of(fuelType, idToMap.get(petrolStation.getId()))));
   }
 }

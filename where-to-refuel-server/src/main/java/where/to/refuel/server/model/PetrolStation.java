@@ -2,10 +2,12 @@ package where.to.refuel.server.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.util.Optional;
 
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class PetrolStation extends Location {
   private final Brand brand;

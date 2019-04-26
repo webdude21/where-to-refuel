@@ -9,14 +9,17 @@ import { FuelTripInformationForm } from "./FuelTripInformationForm";
 import { PetrolStationList } from "./PetrolStationList";
 import { getSorter } from "../model/PetrolStationsSortUtils";
 
+const USER_SETTINGS_KEY = "userSettings";
+const DEFAULT_USER_SETTINGS = {
+  nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10,
+  selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true
+};
+
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10,
-      selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true
-    };
+    this.state = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY)) || DEFAULT_USER_SETTINGS;
     this.handleFuelTripInfoChanged = this.handleFuelTripInfoChanged.bind(this);
     this.handleSortKeyChange = this.handleSortKeyChange.bind(this);
     this.getPetrolStationInformation = this.getPetrolStationInformation.bind(this);
@@ -39,6 +42,8 @@ class App extends Component {
     if (prevState.selectedFuel !== this.state.selectedFuel) {
       await this.getPetrolStationInformation(this.state.selectedFuel);
     }
+
+    localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(this.state));
   }
 
   handleSortKeyChange(sortKey) {
@@ -55,13 +60,13 @@ class App extends Component {
   }
 
   render() {
-    const { fuelAmount, fuelConsumption } = this.state;
+    const { fuelAmount, fuelConsumption, selectedFuel } = this.state;
     const nearByPetrolStationsViewModel = this.getPetrolStations();
 
     return (
       <>
         <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged} fuelAmount={fuelAmount}
-                                 fuelConsumption={fuelConsumption}/>
+                                 fuelConsumption={fuelConsumption} selectedFuel={selectedFuel}/>
         <PetrolStationList petrolStations={nearByPetrolStationsViewModel} onSortKeyChanged={this.handleSortKeyChange}/>
       </>
     );

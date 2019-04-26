@@ -26,7 +26,7 @@ export class FuelTripInformationForm extends Component {
   }
 
   render() {
-    const { fuelAmount, fuelConsumption } = this.props;
+    const { fuelAmount, fuelConsumption, selectedFuel } = this.props;
 
     return (
       <Form>
@@ -46,7 +46,7 @@ export class FuelTripInformationForm extends Component {
             </InputGroup>
           </Col>
           <Col lg={2} md={12}>
-            <Input type="select" name="select" onChange={this.handleSelectedFuelChange}>
+            <Input value={selectedFuel} type="select" name="select" onChange={this.handleSelectedFuelChange}>
               {fuelTypes.map(fuelType => <option value={fuelType.key} key={fuelType.key}>{fuelType.name}</option>)}
             </Input>
           </Col>

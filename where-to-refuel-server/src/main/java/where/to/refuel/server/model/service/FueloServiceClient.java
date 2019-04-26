@@ -23,7 +23,7 @@ import java.util.Map;
 public class FueloServiceClient implements PetrolStationsService {
   private final RxHttpClient httpClient;
   private final DrivingInformationService drivingInformationService;
-  private PetrolStationPriceService petrolStationPriceService;
+  private final PetrolStationPriceService petrolStationPriceService;
 
   @Inject
   public FueloServiceClient(@Client("fuelo") RxHttpClient httpClient,
@@ -42,8 +42,8 @@ public class FueloServiceClient implements PetrolStationsService {
       .blockingGet();
   }
 
-  private Single<List<PetrolStation>> getNearByPetrolStations(Coordinates coordinates, FuelType fuelType) {
-    var requestTO = NearByPetrolStationsRequestTO.of(coordinates, fuelType);
+  private Single<List<PetrolStation>> getNearByPetrolStations(Coordinates origin, FuelType fuelType) {
+    var requestTO = NearByPetrolStationsRequestTO.of(origin, fuelType);
     var requestUri = UriTemplate.of("/api/near?lat={latitude}&lon={longitude}&fuel={fuel}&limit={limit}").expand(requestTO);
     return httpClient.retrieve(HttpRequest.GET(requestUri), PetrolStationsResponseTO.class)
       .firstOrError()
@@ -53,9 +53,9 @@ public class FueloServiceClient implements PetrolStationsService {
       .toList();
   }
 
-  private Flowable<PetrolStation> mergeResults(List<PetrolStation> ps, Coordinates coordinates, Map<Integer, Double> idToMap, FuelType fuelType) {
-    return drivingInformationService.findDrivingInformationFor(coordinates, ps)
+  private Flowable<PetrolStation> mergeResults(List<PetrolStation> ps, Coordinates origin, Map<Integer, Double> priceMap, FuelType fuelType) {
+    return drivingInformationService.findDrivingInformationFor(origin, ps)
       .filter(PetrolStation::hasValidDistance)
-      .map(petrolStation -> petrolStation.setPriceInformation(PriceInformation.of(fuelType, idToMap.get(petrolStation.getId()))));
+      .map(petrolStation -> petrolStation.setPriceInformation(PriceInformation.of(fuelType, priceMap.get(petrolStation.getId()))));
   }
 }

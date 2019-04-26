@@ -4,22 +4,18 @@ import { getNearestPetrolStations } from "../model/service/BackendService";
 import { calculateFuelTripCostInLitersPer100Km } from "../model/FuelTripCalculator";
 import { toPetrolStationViewModel } from "../model/ViewModelConverters";
 import { getLocation } from "../model/service/LocationService";
-import fuelTypes from "../model/FuelTypes";
 import { FuelTripInformationForm } from "./FuelTripInformationForm";
 import { PetrolStationList } from "./PetrolStationList";
 import { getSorter } from "../model/PetrolStationsSortUtils";
+import { LocalStorageService } from "../model/service/LocalStorageService";
 
-const USER_SETTINGS_KEY = "userSettings";
-const DEFAULT_USER_SETTINGS = {
-  nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10,
-  selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true
-};
+const userSettingsService = new LocalStorageService();
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY)) || DEFAULT_USER_SETTINGS;
+    this.state = userSettingsService.userSettings;
     this.handleFuelTripInfoChanged = this.handleFuelTripInfoChanged.bind(this);
     this.handleSortKeyChange = this.handleSortKeyChange.bind(this);
     this.getPetrolStationInformation = this.getPetrolStationInformation.bind(this);
@@ -43,7 +39,7 @@ class App extends Component {
       await this.getPetrolStationInformation(this.state.selectedFuel);
     }
 
-    localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(this.state));
+    userSettingsService.userSettings = this.state;
   }
 
   handleSortKeyChange(sortKey) {

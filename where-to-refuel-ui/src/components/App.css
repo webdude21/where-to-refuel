@@ -10,3 +10,7 @@ table.petrol-station-list, th, td {
 thead {
   background-color: #95999c;
 }
+
+.sortable-header th {
+  cursor: pointer;
+}

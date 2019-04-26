@@ -26,10 +26,10 @@ export class PetrolStationList extends Component {
           <th colSpan="2">Информация за пътуването</th>
           <th colSpan="3">Цена за</th>
         </tr>
-        <tr onClick={this.handleTableHeaderClick}>
+        <tr className={"sortable-header"} onClick={this.handleTableHeaderClick}>
           <th data-sort="brand.name">марка</th>
           <th data-sort="name">име</th>
-          <th>навигация</th>
+          <th data-sort="drivingInfo.distance">навигация</th>
           <th data-sort="drivingInfo.distance">разстояние</th>
           <th data-sort="drivingInfo.duration">време</th>
           <th data-sort="priceInformation.price">литър</th>

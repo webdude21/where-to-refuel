@@ -3,7 +3,7 @@ import fuelTypes from "../FuelTypes";
 const USER_SETTINGS_KEY = "userSettings";
 
 const DEFAULT_USER_SETTINGS = {
-  version: 1, nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10, discounts: [],
+  version: 2, nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10, discounts: [], isLoading: true,
   selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true, activeTab: '1'
 };
 

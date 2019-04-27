@@ -14,3 +14,11 @@ thead {
 .sortable-header th, .nav-link {
   cursor: pointer;
 }
+
+
+.spinner {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  margin-right: 15px;
+}

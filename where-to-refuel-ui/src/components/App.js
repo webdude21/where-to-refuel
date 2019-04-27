@@ -9,9 +9,9 @@ import { PetrolStationList } from "./PetrolStationList";
 import { getSorter } from "../model/PetrolStationsSortUtils";
 import { LocalStorageService } from "../model/service/LocalStorageService";
 import { DiscountTable } from "./DiscountTable";
-import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
+import { Nav, NavItem, NavLink, Spinner, TabContent, TabPane } from "reactstrap";
 import classnames from "classnames";
-import { mergeDiscountModel, updateDiscountModel, applyDiscount } from "../model/Discount";
+import { applyDiscount, mergeDiscountModel, updateDiscountModel } from "../model/Discount";
 
 class App extends Component {
 
@@ -31,7 +31,9 @@ class App extends Component {
 
   async getPetrolStationInformation(selectedFuel) {
     try {
+      this.setState({ isLoading: true });
       let nearByPetrolStations = await getNearestPetrolStations(await getLocation(), selectedFuel);
+      this.setState({ isLoading: false });
       const discounts = mergeDiscountModel(nearByPetrolStations, LocalStorageService.userSettings.discounts);
       this.setState({ nearByPetrolStations, discounts })
     } catch (e) {
@@ -72,7 +74,7 @@ class App extends Component {
   }
 
   render() {
-    const { fuelAmount, fuelConsumption, selectedFuel, discounts } = this.state;
+    const { fuelAmount, fuelConsumption, selectedFuel, discounts, isLoading } = this.state;
     const nearByPetrolStationsViewModel = this.getPetrolStations();
 
     return (
@@ -86,12 +88,16 @@ class App extends Component {
             <NavLink className={classnames({ active: this.state.activeTab === '2' })}
                      onClick={() => this.toggle('2')}>Отстъпки</NavLink>
           </NavItem>
+          {isLoading && <Spinner className="spinner" color="primary"/>}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged} fuelAmount={fuelAmount}
-                                     fuelConsumption={fuelConsumption} selectedFuel={selectedFuel}/>
+            <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged}
+                                     fuelAmount={fuelAmount}
+                                     fuelConsumption={fuelConsumption}
+                                     selectedFuel={selectedFuel}/>
             <PetrolStationList petrolStations={nearByPetrolStationsViewModel}
+                               isLoading={isLoading}
                                onSortKeyChanged={this.handleSortKeyChange}/>
           </TabPane>
           <TabPane tabId="2">
@@ -103,7 +109,7 @@ class App extends Component {
   }
 
   getPetrolStations() {
-    const { fuelAmount, fuelConsumption, discounts, nearByPetrolStations, sortKey, ascending, selectedFuel} = this.state;
+    const { fuelAmount, fuelConsumption, discounts, nearByPetrolStations, sortKey, ascending, selectedFuel } = this.state;
 
     if (nearByPetrolStations.length === 0) {
       return nearByPetrolStations;

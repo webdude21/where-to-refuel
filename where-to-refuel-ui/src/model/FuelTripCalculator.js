@@ -9,8 +9,8 @@ export function calculateFuelTripCostInLitersPer100Km(fuelConsumption) {
 }
 
 function calculateFuelTripCost(fuelConsumption, distance, fuelPrice, fuelAmount) {
-  let tripCost = distance * fuelConsumption * fuelPrice;
-  let totalCost = (fuelPrice * fuelAmount) + tripCost;
+  const tripCost = distance * fuelConsumption * fuelPrice;
+  const totalCost = (fuelPrice * fuelAmount) + tripCost;
   return { tripCost, totalCost };
 }
 

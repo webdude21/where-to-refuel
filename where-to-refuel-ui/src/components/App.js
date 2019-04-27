@@ -8,16 +8,20 @@ import { FuelTripInformationForm } from "./FuelTripInformationForm";
 import { PetrolStationList } from "./PetrolStationList";
 import { getSorter } from "../model/PetrolStationsSortUtils";
 import { LocalStorageService } from "../model/service/LocalStorageService";
-
-const userSettingsService = new LocalStorageService();
+import { DiscountTable } from "./DiscountTable";
+import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
+import classnames from "classnames";
+import { mergeDiscountModel, updateDiscountModel, applyDiscount } from "../model/Discount";
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = userSettingsService.userSettings;
+    this.state = LocalStorageService.userSettings;
     this.handleFuelTripInfoChanged = this.handleFuelTripInfoChanged.bind(this);
     this.handleSortKeyChange = this.handleSortKeyChange.bind(this);
+    this.handleDiscountChange = this.handleDiscountChange.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.getPetrolStationInformation = this.getPetrolStationInformation.bind(this);
   }
 
@@ -28,7 +32,8 @@ class App extends Component {
   async getPetrolStationInformation(selectedFuel) {
     try {
       let nearByPetrolStations = await getNearestPetrolStations(await getLocation(), selectedFuel);
-      this.setState({ nearByPetrolStations })
+      const discounts = mergeDiscountModel(nearByPetrolStations, LocalStorageService.userSettings.discounts);
+      this.setState({ nearByPetrolStations, discounts })
     } catch (e) {
       console.log(e);
     }
@@ -39,7 +44,12 @@ class App extends Component {
       await this.getPetrolStationInformation(this.state.selectedFuel);
     }
 
-    userSettingsService.userSettings = this.state;
+    LocalStorageService.userSettings = this.state;
+  }
+
+  handleDiscountChange(updateInfo) {
+    const discounts = updateDiscountModel(updateInfo, LocalStorageService.userSettings.discounts);
+    this.setState({ discounts });
   }
 
   handleSortKeyChange(sortKey) {
@@ -51,34 +61,60 @@ class App extends Component {
     }
   }
 
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab });
+    }
+  }
+
   handleFuelTripInfoChanged(val) {
     this.setState(val);
   }
 
   render() {
-    const { fuelAmount, fuelConsumption, selectedFuel } = this.state;
+    const { fuelAmount, fuelConsumption, selectedFuel, discounts } = this.state;
     const nearByPetrolStationsViewModel = this.getPetrolStations();
 
     return (
       <>
-        <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged} fuelAmount={fuelAmount}
-                                 fuelConsumption={fuelConsumption} selectedFuel={selectedFuel}/>
-        <PetrolStationList petrolStations={nearByPetrolStationsViewModel} onSortKeyChanged={this.handleSortKeyChange}/>
+        <Nav tabs>
+          <NavItem>
+            <NavLink className={classnames({ active: this.state.activeTab === '1' })}
+                     onClick={() => this.toggle('1')}>Бензиностанции</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className={classnames({ active: this.state.activeTab === '2' })}
+                     onClick={() => this.toggle('2')}>Отстъпки</NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged} fuelAmount={fuelAmount}
+                                     fuelConsumption={fuelConsumption} selectedFuel={selectedFuel}/>
+            <PetrolStationList petrolStations={nearByPetrolStationsViewModel}
+                               onSortKeyChanged={this.handleSortKeyChange}/>
+          </TabPane>
+          <TabPane tabId="2">
+            <DiscountTable discounts={discounts} discountChange={this.handleDiscountChange}/>
+          </TabPane>
+        </TabContent>
       </>
     );
   }
 
   getPetrolStations() {
-    const { fuelAmount, fuelConsumption, nearByPetrolStations, sortKey, ascending } = this.state;
+    const { fuelAmount, fuelConsumption, discounts, nearByPetrolStations, sortKey, ascending, selectedFuel} = this.state;
 
     if (nearByPetrolStations.length === 0) {
       return nearByPetrolStations;
     }
 
+    applyDiscount(nearByPetrolStations, discounts, selectedFuel);
+
     const fuelTripPriceCalculator = calculateFuelTripCostInLitersPer100Km(fuelConsumption);
 
     const nearByPetrolWithFuelTripInfo = nearByPetrolStations
-      .map(p => Object.assign(fuelTripPriceCalculator(p.drivingInfo.distance, p.priceInformation.price, fuelAmount), p));
+      .map(p => Object.assign(fuelTripPriceCalculator(p.drivingInfo.distance, p.priceInformation.price - p.priceInformation.discount, fuelAmount), p));
 
     let viewModels = nearByPetrolWithFuelTripInfo
       .sort(getSorter(sortKey, nearByPetrolWithFuelTripInfo[0]))

@@ -34,14 +34,14 @@ export class FuelTripInformationForm extends Component {
           <Col lg={5} md={12}>
             <InputGroup>
               <InputGroupAddon addonType="append">Разход за 100 км</InputGroupAddon>
-              <Input min={1} max={100} type="number" step="0.5" value={fuelConsumption}
+              <Input min={1} max={100} type="number" step={0.5} value={fuelConsumption}
                      onChange={this.handleConsumptionChange}/>
             </InputGroup>
           </Col>
           <Col lg={5} md={12}>
             <InputGroup>
               <InputGroupAddon addonType="append">Литри гориво които ще заредите</InputGroupAddon>
-              <Input min={1} max={100} type="number" step="1" value={fuelAmount}
+              <Input min={1} max={100} type="number" step={1} value={fuelAmount}
                      onChange={this.handleFuelAmountChange}/>
             </InputGroup>
           </Col>

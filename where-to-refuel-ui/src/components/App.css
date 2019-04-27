@@ -1,9 +1,9 @@
-table.petrol-station-list td, table.petrol-station-list thead th {
+table td, table thead th {
   text-align: center;
   vertical-align: middle;
 }
 
-table.petrol-station-list, th, td {
+table, th, td {
   border: 1px solid black;
 }
 
@@ -11,6 +11,6 @@ thead {
   background-color: #95999c;
 }
 
-.sortable-header th {
+.sortable-header th, .nav-link {
   cursor: pointer;
 }

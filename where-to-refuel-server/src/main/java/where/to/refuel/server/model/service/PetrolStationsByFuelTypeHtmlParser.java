@@ -19,7 +19,7 @@ public class PetrolStationsByFuelTypeHtmlParser {
 
   private static double getPrice(Elements allElements) {
     var priceWithCurrency = allElements.get(4).text();
-    var priceStripped = StringUtils.removeEnd(priceWithCurrency, " лв.");
+    var priceStripped = StringUtils.split(priceWithCurrency, " ")[0];
     var priceWithProperDelimiter = priceStripped.replace(',', '.');
     return Double.valueOf(priceWithProperDelimiter);
   }

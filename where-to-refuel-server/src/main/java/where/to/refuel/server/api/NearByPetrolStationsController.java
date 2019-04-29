@@ -1,5 +1,6 @@
 package where.to.refuel.server.api;
 
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -11,6 +12,7 @@ import where.to.refuel.server.model.FuelType;
 import where.to.refuel.server.model.PetrolStation;
 import where.to.refuel.server.model.service.FueloServiceClient;
 import where.to.refuel.server.model.service.PetrolStationsService;
+import where.to.refuel.server.model.service.UserLogService;
 
 import javax.inject.Inject;
 
@@ -22,16 +24,22 @@ public class NearByPetrolStationsController {
 
   private static final String CACHE_FOR_6_HOURS = "public, immutable, max-age=21600";
   private PetrolStationsService petrolStationsService;
+  private UserLogService userLogService;
 
   @Inject
-  public NearByPetrolStationsController(FueloServiceClient fuelPriceService) {
+  public NearByPetrolStationsController(FueloServiceClient fuelPriceService, UserLogService userLogService) {
     this.petrolStationsService = fuelPriceService;
+    this.userLogService = userLogService;
   }
 
-  @Get(value = "/{?request*}", produces = MediaType.APPLICATION_JSON)
-  public HttpResponse<Flowable<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO request) {
-    var location = Coordinates.of(request.getLatitude(), request.getLongitude());
-    var result = petrolStationsService.findByLocationAndFuelType(location, FuelType.valueOf(request.getFuel()));
+  @Get(value = "/{?requestTO*}", produces = MediaType.APPLICATION_JSON)
+  public HttpResponse<Flowable<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO requestTO,
+                                                                        final HttpRequest<?> httpRequest) {
+    var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
+    var fuelType = FuelType.valueOf(requestTO.getFuel());
+    var remoteAddress = httpRequest.getRemoteAddress();
+    userLogService.logUserInfo(location, fuelType, remoteAddress.getHostName(), remoteAddress.getAddress().getHostAddress());
+    var result = petrolStationsService.findByLocationAndFuelType(location, fuelType);
     return ok(result).header(CACHE_CONTROL, CACHE_FOR_6_HOURS);
   }
 }

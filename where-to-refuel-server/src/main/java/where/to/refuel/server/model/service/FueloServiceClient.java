@@ -13,7 +13,6 @@ import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;
 import where.to.refuel.server.model.PetrolStation;
 import where.to.refuel.server.model.PriceInformation;
-import where.to.refuel.server.model.repository.UserLogServiceRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,24 +22,20 @@ import java.util.Map;
 @Singleton
 public class FueloServiceClient implements PetrolStationsService {
   private final RxHttpClient httpClient;
-  private final UserLogServiceRepository userLogServiceRepository;
   private final DrivingInformationService drivingInformationService;
   private final PetrolStationPriceService petrolStationPriceService;
 
   @Inject
   public FueloServiceClient(@Client("fuelo") RxHttpClient httpClient,
                             PetrolStationPriceService petrolStationPriceService,
-                            UserLogServiceRepository userLogServiceRepository,
                             DrivingInformationService drivingInformationService) {
     this.httpClient = httpClient;
     this.petrolStationPriceService = petrolStationPriceService;
-    this.userLogServiceRepository = userLogServiceRepository;
     this.drivingInformationService = drivingInformationService;
   }
 
   @Override
   public Flowable<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
-    userLogServiceRepository.logUserInfo(coordinates, fuelType).subscribe();
     var nearByPetrolStations = getNearByPetrolStations(coordinates, fuelType);
     var pricesMapSingle = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType);
     return nearByPetrolStations.zipWith(pricesMapSingle, (ps, priceMap) -> mergeResults(ps, coordinates, priceMap, fuelType))

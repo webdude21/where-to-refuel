@@ -3,7 +3,7 @@ package where.to.refuel.server.model;
 import lombok.Value;
 
 @Value
-public final class Coordinates {
+public class Coordinates {
 
   double latitude;
   double longitude;

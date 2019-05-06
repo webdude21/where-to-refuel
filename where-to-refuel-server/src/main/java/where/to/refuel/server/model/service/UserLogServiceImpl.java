@@ -20,8 +20,8 @@ public class UserLogServiceImpl implements UserLogService {
   }
 
   @Override
-  public void logUserInfo(Coordinates location, FuelType fuelType, String hostName, String ipAddress) {
-    var userLog = UserLog.of(location, fuelType.getKey(), hostName, ipAddress, LocalDateTime.now());
+  public void logUserInfo(Coordinates location, FuelType fuelType, String ipAddress) {
+    var userLog = UserLog.of(location, fuelType.getKey(), ipAddress, LocalDateTime.now());
     userLogRepository.logUserInfo(userLog).subscribe();
   }
 }

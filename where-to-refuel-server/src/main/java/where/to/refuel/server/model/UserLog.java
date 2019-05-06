@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 public class UserLog {
   Coordinates location;
   String fuelType;
-  String hostName;
   String ipAddress;
   LocalDateTime requestedOn;
 }

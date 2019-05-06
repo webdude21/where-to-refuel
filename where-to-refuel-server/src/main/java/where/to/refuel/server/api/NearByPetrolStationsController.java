@@ -6,6 +6,7 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Flowable;
+import org.apache.commons.lang3.StringUtils;
 import where.to.refuel.server.dto.NearByPetrolStationsRequestTO;
 import where.to.refuel.server.model.Coordinates;
 import where.to.refuel.server.model.FuelType;
@@ -37,9 +38,20 @@ public class NearByPetrolStationsController {
                                                                         final HttpRequest<?> httpRequest) {
     var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
     var fuelType = FuelType.valueOf(requestTO.getFuel());
-    var remoteAddress = httpRequest.getRemoteAddress();
-    userLogService.logUserInfo(location, fuelType, remoteAddress.getHostName(), remoteAddress.getAddress().getHostAddress());
+    userLogService.logUserInfo(location, fuelType, extractIpAddress(httpRequest));
     var result = petrolStationsService.findByLocationAndFuelType(location, fuelType);
     return ok(result).header(CACHE_CONTROL, CACHE_FOR_6_HOURS);
+  }
+
+  private String extractIpAddress(final HttpRequest<?> httpRequest) {
+    var forwardedFor = httpRequest.getHeaders().get("HTTP_X_FORWARDED_FOR");
+
+    if (!StringUtils.isBlank(forwardedFor)) {
+      return httpRequest.getRemoteAddress().getAddress().getHostAddress();
+    }
+
+    var ipAddresses = StringUtils.splitPreserveAllTokens(",");
+
+    return ipAddresses[ipAddresses.length - 1];
   }
 }

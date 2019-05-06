@@ -27,7 +27,6 @@ public class UserLogRepository {
     document.put("requestedOn", userLog.getRequestedOn());
     document.put("location", userLog.getLocation());
     document.put("fuelType", userLog.getFuelType());
-    document.put("hostName", userLog.getHostName());
     document.put("ipAddress", userLog.getIpAddress());
     return Flowable.fromPublisher(collection.insertOne(document));
   }

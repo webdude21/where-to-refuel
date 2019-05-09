@@ -37,7 +37,7 @@ public class BingRouteService implements DrivingInformationService {
   public <T extends Location> Flowable<T> findDrivingInformationFor(Coordinates origin, List<T> destinations) {
     if (destinations.size() == 0) {
       log.info("Calling the service without destinations, origin is: {}", origin);
-      return Flowable.fromIterable(Collections.emptyList());
+      return Flowable.empty();
     }
 
     var destinationCoords = destinations.stream().map(Location::getCoordinates).collect(Collectors.toList());

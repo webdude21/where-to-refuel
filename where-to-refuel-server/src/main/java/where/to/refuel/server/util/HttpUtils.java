@@ -11,9 +11,12 @@ public class HttpUtils {
   public static String extractIpAddress(final HttpRequest<?> httpRequest) {
     var forwardedFor = httpRequest.getHeaders().get("HTTP_X_FORWARDED_FOR");
 
+    log.info("httpRequest.getHeaders() {}", httpRequest.getHeaders());
+
     if (StringUtils.isBlank(forwardedFor)) {
-      log.info("Got the ip {} from the request.", forwardedFor);
-      return httpRequest.getRemoteAddress().getAddress().getHostAddress();
+      var hostAddress = httpRequest.getRemoteAddress().getAddress().getHostAddress();
+      log.info("Got the ip {} from the request.", hostAddress);
+      return hostAddress;
     }
 
     var ipAddresses = StringUtils.splitPreserveAllTokens(forwardedFor, ",");

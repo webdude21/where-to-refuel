@@ -11,7 +11,7 @@ public class HttpUtils {
   public static String extractIpAddress(final HttpRequest<?> httpRequest) {
     var forwardedFor = httpRequest.getHeaders().get("HTTP_X_FORWARDED_FOR");
 
-    log.info("httpRequest.getHeaders() {}", httpRequest.getHeaders());
+    log.info("httpRequest.getHeaders() {}", forwardedFor);
 
     if (StringUtils.isBlank(forwardedFor)) {
       var hostAddress = httpRequest.getRemoteAddress().getAddress().getHostAddress();

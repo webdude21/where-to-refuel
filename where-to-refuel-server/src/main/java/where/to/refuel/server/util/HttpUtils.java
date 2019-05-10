@@ -12,14 +12,14 @@ public class HttpUtils {
     var forwardedFor = httpRequest.getHeaders().get("HTTP_X_FORWARDED_FOR");
 
     if (StringUtils.isBlank(forwardedFor)) {
-      log.debug("Got the ip {} from the request.", forwardedFor);
+      log.info("Got the ip {} from the request.", forwardedFor);
       return httpRequest.getRemoteAddress().getAddress().getHostAddress();
     }
 
     var ipAddresses = StringUtils.splitPreserveAllTokens(forwardedFor, ",");
     var lastIpAddress = ipAddresses[ipAddresses.length - 1];
 
-    log.debug("Got the ip {} from the headers, full string is {}", lastIpAddress, ipAddresses);
+    log.info("Got the ip {} from the headers, full string is {}", lastIpAddress, ipAddresses);
 
     return lastIpAddress;
   }

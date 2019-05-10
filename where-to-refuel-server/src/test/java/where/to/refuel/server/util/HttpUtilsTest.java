@@ -19,7 +19,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class HttpUtilsTest {
 
-  private static final String HTTP_X_FORWARDED_FOR = "HTTP_X_FORWARDED_FOR";
+  private static final String HTTP_X_FORWARDED_FOR = "REMOTE_ADDR";
 
   @Mock
   HttpRequest httpRequest;

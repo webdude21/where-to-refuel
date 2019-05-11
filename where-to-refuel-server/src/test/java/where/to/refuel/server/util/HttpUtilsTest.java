@@ -19,7 +19,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class HttpUtilsTest {
 
-  private static final String HTTP_X_FORWARDED_FOR = "REMOTE_ADDR";
+  private static final String X_FORWARDED_FOR = "x-forwarded-for";
 
   @Mock
   HttpRequest httpRequest;
@@ -40,13 +40,13 @@ class HttpUtilsTest {
 
   @Test
   void extractIpAddressWhenHttpXForwardedForIsPresentShouldReturnTheLastIpAddress() {
-    when(httpHeaders.get(HTTP_X_FORWARDED_FOR)).thenReturn("127.0.0.1,215.21.24.1,192.168.0.1");
+    when(httpHeaders.get(X_FORWARDED_FOR)).thenReturn("127.0.0.1,215.21.24.1,192.168.0.1");
     when(httpRequest.getHeaders()).thenReturn(httpHeaders);
 
     var expected = "192.168.0.1";
     var actual = HttpUtils.extractIpAddress(httpRequest);
 
-    verify(httpHeaders, times(1)).get(HTTP_X_FORWARDED_FOR);
+    verify(httpHeaders, times(1)).get(X_FORWARDED_FOR);
     verify(httpRequest, times(1)).getHeaders();
 
     verifyNoMoreInteractions(httpHeaders, httpRequest, inetSocketAddress, inetAddress);
@@ -57,7 +57,7 @@ class HttpUtilsTest {
   @Test
   void extractIpAddressWhenHttpXForwardedForIsNotPresentShouldBeTheHttpIpAddress() {
     var expected = "192.168.0.1";
-    when(httpHeaders.get(HTTP_X_FORWARDED_FOR)).thenReturn(null);
+    when(httpHeaders.get(X_FORWARDED_FOR)).thenReturn(null);
     when(httpRequest.getHeaders()).thenReturn(httpHeaders);
     when(httpRequest.getRemoteAddress()).thenReturn(inetSocketAddress);
     when(inetSocketAddress.getAddress()).thenReturn(inetAddress);
@@ -67,7 +67,7 @@ class HttpUtilsTest {
 
     verify(inetAddress, times(1)).getHostAddress();
     verify(inetSocketAddress, times(1)).getAddress();
-    verify(httpHeaders, times(1)).get(HTTP_X_FORWARDED_FOR);
+    verify(httpHeaders, times(1)).get(X_FORWARDED_FOR);
     verify(httpRequest, times(1)).getHeaders();
     verify(httpRequest, times(1)).getRemoteAddress();
 

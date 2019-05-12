@@ -2,20 +2,3 @@ allprojects {
     group = 'where-to-refuel'
     version = '0.0.1-SNAPSHOT'
 }
-
-task copyClientResources(dependsOn: ':where-to-refuel-ui:build') {
-    group = 'build'
-    description = 'Copy client resources into server'
-}
-
-copyClientResources.doFirst {
-    copy {
-        from project(':where-to-refuel-ui').buildDir.absolutePath
-        into "${project(':where-to-refuel-server').buildDir}/resources/main/public"
-    }
-}
-
-task assembleServerAndClient(dependsOn: ['copyClientResources', ':where-to-refuel-server:shadowJar']) {
-    group = 'build'
-    description = 'Build combined server & client JAR'
-}

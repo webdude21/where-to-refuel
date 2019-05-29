@@ -4,7 +4,7 @@ function calculateFuelTripCostWith(fuelConsumptionConverter, fuelConsumption) {
   }
 }
 
-export function calculateFuelTripCostInLitersPer100Km(fuelConsumption) {
+export function getFuelTripCostInLitersPer100KmCalculator(fuelConsumption) {
   return calculateFuelTripCostWith(fc => fc / 100, fuelConsumption);
 }
 

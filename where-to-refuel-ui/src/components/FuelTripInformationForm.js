@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Form, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
+import { Col, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from "reactstrap";
 import fuelTypes from "../model/FuelTypes";
 
 export class FuelTripInformationForm extends Component {
@@ -8,6 +8,7 @@ export class FuelTripInformationForm extends Component {
     this.handleConsumptionChange = this.handleConsumptionChange.bind(this);
     this.handleFuelAmountChange = this.handleFuelAmountChange.bind(this);
     this.handleSelectedFuelChange = this.handleSelectedFuelChange.bind(this);
+    this.handleTripMode = this.handleTripMode.bind(this);
   }
 
   handleFuelAmountChange({ target: { value } }) {
@@ -25,24 +26,37 @@ export class FuelTripInformationForm extends Component {
     onFormDataChange({ selectedFuel: value });
   }
 
+  handleTripMode({ target: { checked } }) {
+    const { onFormDataChange } = this.props;
+    onFormDataChange({ twoWayTrip: checked });
+  }
+
   render() {
-    const { fuelAmount, fuelConsumption, selectedFuel } = this.props;
+    const { fuelAmount, fuelConsumption, selectedFuel, twoWayTrip } = this.props;
 
     return (
       <Form>
         <Row form>
-          <Col lg={5} md={12}>
+          <Col lg={3} md={12}>
             <InputGroup>
               <InputGroupAddon addonType="append">Разход за 100 км</InputGroupAddon>
               <Input min={1} max={100} type="number" step={0.5} value={fuelConsumption}
                      onChange={this.handleConsumptionChange}/>
             </InputGroup>
           </Col>
-          <Col lg={5} md={12}>
+          <Col lg={3} md={12}>
             <InputGroup>
-              <InputGroupAddon addonType="append">Литри гориво които ще заредите</InputGroupAddon>
+              <InputGroupAddon addonType="append">Количество гориво</InputGroupAddon>
               <Input min={1} max={100} type="number" step={1} value={fuelAmount}
                      onChange={this.handleFuelAmountChange}/>
+            </InputGroup>
+          </Col>
+          <Col lg={4} md={12}>
+            <InputGroup>
+              <InputGroupText>
+                <Input addon type="checkbox" checked={twoWayTrip} onChange={this.handleTripMode}/>
+              </InputGroupText>
+              <Input value="Пътуване в двете посоки" disabled/>
             </InputGroup>
           </Col>
           <Col lg={2} md={12}>

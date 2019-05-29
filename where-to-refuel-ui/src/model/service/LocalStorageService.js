@@ -3,8 +3,17 @@ import fuelTypes from "../FuelTypes";
 const USER_SETTINGS_KEY = "userSettings";
 
 const DEFAULT_USER_SETTINGS = {
-  version: 2, nearByPetrolStations: [], fuelAmount: 40, fuelConsumption: 10, discounts: [], isLoading: true,
-  selectedFuel: fuelTypes[0].key, sortKey: "totalCost", ascending: true, activeTab: '1'
+  version: 3,
+  nearByPetrolStations: [],
+  fuelAmount: 40,
+  fuelConsumption: 10,
+  discounts: [],
+  isLoading: true,
+  twoWayTrip: false,
+  selectedFuel: fuelTypes[0].key,
+  sortKey: "totalCost",
+  ascending: true,
+  activeTab: '1'
 };
 
 export class LocalStorageService {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { getNearestPetrolStations } from "../model/service/BackendService";
-import { calculateFuelTripCostInLitersPer100Km } from "../model/FuelTripCalculator";
+import { getFuelTripCostInLitersPer100KmCalculator } from "../model/FuelTripCalculator";
 import { toPetrolStationViewModel } from "../model/ViewModelConverters";
 import { getLocation } from "../model/service/LocationService";
 import { FuelTripInformationForm } from "./FuelTripInformationForm";
@@ -74,7 +74,7 @@ class App extends Component {
   }
 
   render() {
-    const { fuelAmount, fuelConsumption, selectedFuel, discounts, isLoading } = this.state;
+    const { fuelAmount, twoWayTrip, fuelConsumption, selectedFuel, discounts, isLoading } = this.state;
     const nearByPetrolStationsViewModel = this.getPetrolStations();
 
     return (
@@ -93,6 +93,7 @@ class App extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <FuelTripInformationForm onFormDataChange={this.handleFuelTripInfoChanged}
+                                     twoWayTrip={twoWayTrip}
                                      fuelAmount={fuelAmount}
                                      fuelConsumption={fuelConsumption}
                                      selectedFuel={selectedFuel}/>
@@ -109,7 +110,7 @@ class App extends Component {
   }
 
   getPetrolStations() {
-    const { fuelAmount, fuelConsumption, discounts, nearByPetrolStations, sortKey, ascending, selectedFuel } = this.state;
+    const { fuelAmount, twoWayTrip, fuelConsumption, discounts, nearByPetrolStations, sortKey, ascending, selectedFuel } = this.state;
 
     if (nearByPetrolStations.length === 0) {
       return nearByPetrolStations;
@@ -117,7 +118,8 @@ class App extends Component {
 
     applyDiscount(nearByPetrolStations, discounts, selectedFuel);
 
-    const fuelTripPriceCalculator = calculateFuelTripCostInLitersPer100Km(fuelConsumption);
+    const fuelConsumptionAdjustedForTripType = twoWayTrip ? fuelConsumption * 2 : fuelConsumption;
+    const fuelTripPriceCalculator = getFuelTripCostInLitersPer100KmCalculator(fuelConsumptionAdjustedForTripType);
 
     const nearByPetrolWithFuelTripInfo = nearByPetrolStations
       .map(p => Object.assign(fuelTripPriceCalculator(p.drivingInfo.distance, p.priceInformation.price - p.priceInformation.discount, fuelAmount), p));

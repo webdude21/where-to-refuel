@@ -110,9 +110,10 @@ class App extends Component {
           <TabPane tabId="2">
             <DiscountTable discounts={discounts} discountChange={this.handleDiscountChange}/>
           </TabPane>
+          {showAdminPanel &&
           <TabPane tabId="3">
             <AdminPanel/>
-          </TabPane>
+          </TabPane>}
         </TabContent>
       </>
     );

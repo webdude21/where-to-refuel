@@ -17,19 +17,19 @@ micronaut:
           - https://bg.fuelo.net
         pool:
           enabled: true
-          max-connections: 50
+          max-connections: 2
       fuelo:
         urls:
           - https://fuelo.net
         pool:
           enabled: true
-          max-connections: 50
+          max-connections: 2
       bing:
         urls:
           - https://dev.virtualearth.net
         pool:
           enabled: true
-          max-connections: 50
+          max-connections: 2
 bing:
   base: REST
   version: v1

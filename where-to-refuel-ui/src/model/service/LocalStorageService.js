@@ -3,7 +3,8 @@ import fuelTypes from "../FuelTypes";
 const USER_SETTINGS_KEY = "userSettings";
 
 const DEFAULT_USER_SETTINGS = {
-  version: 3,
+  showAdminPanel: false,
+  version: 4,
   nearByPetrolStations: [],
   fuelAmount: 40,
   fuelConsumption: 10,

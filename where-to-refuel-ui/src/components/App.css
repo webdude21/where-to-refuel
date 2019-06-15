@@ -22,3 +22,7 @@ thead {
   right: 0;
   margin-right: 15px;
 }
+
+#map-container {
+  height: calc(100vh - 42px);
+}

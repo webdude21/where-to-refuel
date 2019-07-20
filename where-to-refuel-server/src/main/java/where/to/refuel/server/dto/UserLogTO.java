@@ -1,5 +1,6 @@
 package where.to.refuel.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import where.to.refuel.server.model.UserLog;
@@ -10,6 +11,7 @@ public class UserLogTO {
   double latitude;
   double longitude;
   String fuelType;
+  @JsonIgnore
   String ipAddress;
   String requestedOn;
 

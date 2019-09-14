@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class DrivingInformationResponseTO {
 
-  private List<DrivingInformationTO> drivingInformationTOs;
+  List<DrivingInformationTO> drivingInformationTOs;
 
   @JsonProperty("resourceSets")
   @SuppressWarnings("unchecked")

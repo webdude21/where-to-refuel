@@ -9,10 +9,10 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class DrivingInformationTO {
-  private int destinationIndex;
-  private int originIndex;
-  private double travelDistance;
-  private double travelDuration;
+  int destinationIndex;
+  int originIndex;
+  double travelDistance;
+  double travelDuration;
 
   static DrivingInformationTO from(Map<String, ? extends Number> linkedHashMap) {
     var drivingInformationTO = new DrivingInformationTO();
@@ -20,7 +20,6 @@ public class DrivingInformationTO {
     drivingInformationTO.setOriginIndex(linkedHashMap.get("originIndex").intValue());
     drivingInformationTO.setTravelDistance(linkedHashMap.get("travelDistance").doubleValue());
     drivingInformationTO.setTravelDuration(linkedHashMap.get("travelDuration").doubleValue());
-
     return drivingInformationTO;
   }
 

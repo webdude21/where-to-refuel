@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data(staticConstructor = "of")
 public class DrivingInformationRequestTO {
-  private final String travelMode = "driving";
-  private final List<Coordinates> origins;
-  private final List<Coordinates> destinations;
+  final String travelMode = "driving";
+  final List<Coordinates> origins;
+  final List<Coordinates> destinations;
 }

@@ -8,7 +8,7 @@ import where.to.refuel.server.model.FuelType;
 @Data
 @NoArgsConstructor
 public class NearByPetrolStationsPriceRequestTO {
-  final static String lang = "bg";
+  final String lang = "bg";
   double lat;
   double lon;
   String type;

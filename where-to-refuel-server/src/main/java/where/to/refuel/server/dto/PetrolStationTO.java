@@ -11,23 +11,23 @@ import where.to.refuel.server.model.PetrolStation;
 @NoArgsConstructor
 public class PetrolStationTO {
   @JsonProperty("id")
-  int id;
+  private int id;
   @JsonProperty("lat")
-  double latitude;
+  private double latitude;
   @JsonProperty("lon")
-  double longitude;
+  private double longitude;
   @JsonProperty("brand_name")
-  String brandName;
+  private String brandName;
   @JsonProperty("brand_id")
-  int brandId;
+  private int brandId;
   @JsonProperty("name")
-  String name;
+  private String name;
   @JsonProperty("city")
-  String city;
+  private String city;
   @JsonProperty("address")
-  String address;
+  private String address;
   @JsonProperty("distance")
-  double distance;
+  private double distance;
 
   public PetrolStation toPetrolStation() {
     return new PetrolStation(id, name, city, address, Coordinates.of(latitude, longitude), distance, Brand.of(brandId, brandName));

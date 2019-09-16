@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class PetrolStationsResponseTO {
   @JsonProperty(value = "gasstations")
-  List<PetrolStationTO> petrolStationTOS = new ArrayList<>();
+  private List<PetrolStationTO> petrolStationTOS = new ArrayList<>();
 }

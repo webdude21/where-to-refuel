@@ -8,10 +8,10 @@ import where.to.refuel.server.model.FuelType;
 @Data
 @NoArgsConstructor
 public class NearByPetrolStationsPriceRequestTO {
-  final String lang = "bg";
-  double lat;
-  double lon;
-  String type;
+  private final String lang = "bg";
+  private double lat;
+  private double lon;
+  private String type;
 
   private NearByPetrolStationsPriceRequestTO(Coordinates coordinates, FuelType fuelType) {
     lat = coordinates.getLatitude();

@@ -8,12 +8,12 @@ import where.to.refuel.server.model.UserLog;
 @Data
 @NoArgsConstructor
 public class UserLogTO {
-  double latitude;
-  double longitude;
-  String fuelType;
+  private double latitude;
+  private double longitude;
+  private String fuelType;
   @JsonIgnore
-  String ipAddress;
-  String requestedOn;
+  private String ipAddress;
+  private String requestedOn;
 
   public static UserLogTO from(UserLog userLog) {
     var userLogTO = new UserLogTO();

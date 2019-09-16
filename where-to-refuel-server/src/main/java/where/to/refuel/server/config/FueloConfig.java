@@ -10,5 +10,5 @@ import lombok.Data;
 @Requires(property = FueloConfig.PREFIX + ".apikey")
 class FueloConfig {
   static final String PREFIX = "fuelo";
-  private String apikey;
+  String apikey;
 }

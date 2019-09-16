@@ -12,7 +12,7 @@ import lombok.Data;
 @Requires(property = BingConfig.PREFIX + ".version")
 public class BingConfig {
   static final String PREFIX = "bing";
-  private String apikey;
-  private String base;
-  private String version;
+  String apikey;
+  String base;
+  String version;
 }

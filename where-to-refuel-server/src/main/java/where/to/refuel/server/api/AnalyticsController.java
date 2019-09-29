@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @Controller("/analytics")
 public class AnalyticsController {
 
-  private UserLogService userLogService;
+  private final UserLogService userLogService;
 
   @Inject
   public AnalyticsController(UserLogService userLogService) {

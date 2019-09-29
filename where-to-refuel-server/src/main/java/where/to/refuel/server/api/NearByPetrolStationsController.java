@@ -24,8 +24,8 @@ import static where.to.refuel.server.util.HttpUtils.extractIpAddress;
 public class NearByPetrolStationsController {
 
   private static final String CACHE_FOR_6_HOURS = "public, immutable, max-age=21600";
-  private PetrolStationsService petrolStationsService;
-  private UserLogService userLogService;
+  private final PetrolStationsService petrolStationsService;
+  private final UserLogService userLogService;
 
   @Inject
   public NearByPetrolStationsController(FueloServiceClient fuelPriceService, UserLogService userLogService) {

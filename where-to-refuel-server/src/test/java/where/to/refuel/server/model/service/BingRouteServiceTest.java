@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @MicronautTest
@@ -85,9 +85,9 @@ class BingRouteServiceTest extends IntegrationTest {
     var actual = bingRouteService.findDrivingInformationFor(VALID_COORDINATES, testLocations).toList().blockingGet();
 
     assertNotNull(actual);
-    assertThat(actual, hasSize(50));
-    IntStream.range(0, testLocations.size()).forEach(i -> assertThat(testLocations.get(i), equalTo(actual.get(i))));
     actual.forEach(location -> assertNotNull(location.getDrivingInfo()));
+    assertThat(actual, hasSize(50));
+    assertIterableEquals(testLocations, actual);
   }
 
   private Location createTestLocation(int index) {

@@ -18,7 +18,7 @@ public class PetrolStationsByFuelTypeHtmlParser {
   }
 
   private static double getPrice(Elements allElements) {
-    var priceWithCurrency = allElements.get(4).text();
+    var priceWithCurrency = allElements.get(5).text();
     var priceStripped = StringUtils.split(priceWithCurrency, " ")[0];
     var priceWithProperDelimiter = priceStripped.replace(',', '.');
     return Double.parseDouble(priceWithProperDelimiter);

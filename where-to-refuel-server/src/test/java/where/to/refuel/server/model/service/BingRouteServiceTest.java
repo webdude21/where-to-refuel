@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -78,8 +77,8 @@ class BingRouteServiceTest extends IntegrationTest {
 
   @Test
   void findDrivingInformationFor() {
-    var testLocations = IntStream.range(0, TEST_COORDINATES.size())
-      .mapToObj(this::createTestLocation)
+    var testLocations = TEST_COORDINATES.stream()
+      .map(BingRouteServiceTest::createTestLocation)
       .collect(Collectors.toList());
 
     var actual = bingRouteService.findDrivingInformationFor(VALID_COORDINATES, testLocations).toList().blockingGet();
@@ -90,13 +89,7 @@ class BingRouteServiceTest extends IntegrationTest {
     assertIterableEquals(testLocations, actual);
   }
 
-  private Location createTestLocation(int index) {
-    return new Location(index,
-      "Petrol Station " + index,
-      "Sofia",
-      "My Street",
-      TEST_COORDINATES.get(index),
-      21.12
-    );
+  private static Location createTestLocation(Coordinates coordinates) {
+    return new Location(0, "Petrol Station", "Sofia", "My Street", coordinates, 21.12);
   }
 }

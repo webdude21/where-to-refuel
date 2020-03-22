@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class BingRouteServiceTest extends IntegrationTest {
 
   private static final Coordinates VALID_COORDINATES = Coordinates.of(42.6567825, 23.2857181);
-  private static List<Coordinates> testCoordinates = Arrays.asList(
+  private static final List<Coordinates> TEST_COORDINATES = Arrays.asList(
     Coordinates.of(42.65147, 23.287512),
     Coordinates.of(42.650642, 23.289873),
     Coordinates.of(42.6618, 23.295099),
@@ -78,7 +78,7 @@ class BingRouteServiceTest extends IntegrationTest {
 
   @Test
   void findDrivingInformationFor() {
-    var testLocations = IntStream.range(0, testCoordinates.size())
+    var testLocations = IntStream.range(0, TEST_COORDINATES.size())
       .mapToObj(this::createTestLocation)
       .collect(Collectors.toList());
 
@@ -91,6 +91,12 @@ class BingRouteServiceTest extends IntegrationTest {
   }
 
   private Location createTestLocation(int index) {
-    return new Location(index, "Petrol Station " + index, "Sofia", "My Street", testCoordinates.get(index), 21.12);
+    return new Location(index,
+      "Petrol Station " + index,
+      "Sofia",
+      "My Street",
+      TEST_COORDINATES.get(index),
+      21.12
+    );
   }
 }

@@ -38,8 +38,9 @@ public class FueloServiceClient implements PetrolStationsService {
   public Flowable<PetrolStation> findByLocationAndFuelType(Coordinates coordinates, FuelType fuelType) {
     var nearByPetrolStations = getNearByPetrolStations(coordinates, fuelType);
     var pricesMapSingle = petrolStationPriceService.findByLocationAndFuelType(coordinates, fuelType);
-    return nearByPetrolStations.zipWith(pricesMapSingle, (ps, priceMap) -> mergeResults(ps, coordinates, priceMap, fuelType))
-      .blockingGet();
+    return nearByPetrolStations
+      .zipWith(pricesMapSingle, (ps, priceMap) -> mergeResults(ps, coordinates, priceMap, fuelType))
+      .flattenAsFlowable(Flowable::blockingIterable);
   }
 
   private Single<List<PetrolStation>> getNearByPetrolStations(Coordinates origin, FuelType fuelType) {

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 public class IntegrationTest {
 
   @Rule
-  public static WireMockRule wireMock = new WireMockRule(8090);
+  public static final WireMockRule wireMock = new WireMockRule(8090);
 
   @BeforeAll
   static void setup() {

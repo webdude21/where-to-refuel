@@ -4,7 +4,7 @@ plugins {
     id "java"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "net.ltgt.apt-idea" version "0.21"
-    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
 }
 
@@ -12,8 +12,7 @@ version "0.1"
 group "where.to.refuel.server"
 
 repositories {
-    mavenCentral()
-    maven { url "https://jcenter.bintray.com" }
+    jcenter()
 }
 
 dependencyManagement {
@@ -22,8 +21,10 @@ dependencyManagement {
     }
 }
 
-sourceCompatibility = 1.11
-targetCompatibility = 1.11
+java {
+    sourceCompatibility = JavaVersion.toVersion('14')
+    targetCompatibility = JavaVersion.toVersion('14')
+}
 
 configurations {
     // for dependencies that are needed for development only
@@ -68,5 +69,7 @@ shadowJar {
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+tasks.withType(JavaExec) {
+    classpath += configurations.developmentOnly
+    jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+}

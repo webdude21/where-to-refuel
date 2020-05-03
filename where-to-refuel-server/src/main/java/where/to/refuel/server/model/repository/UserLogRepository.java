@@ -1,7 +1,7 @@
 package where.to.refuel.server.model.repository;
 
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.Success;
 import io.reactivex.Flowable;
 import org.bson.Document;
 import where.to.refuel.server.model.Coordinates;
@@ -25,7 +25,7 @@ public class UserLogRepository {
     this.mongoClient = mongoClient;
   }
 
-  public Flowable<Success> logUserInfo(UserLog userLog) {
+  public Flowable<InsertOneResult> logUserInfo(UserLog userLog) {
     var collection = mongoClient.getDatabase(DATABASE_NAME).getCollection(USER_INFO_COLLECTION);
     Document document = new Document();
     document.put("requestedOn", userLog.getRequestedOn());

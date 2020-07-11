@@ -13,9 +13,7 @@ export function PetrolStationListRow({
       <td><NavigateToButton {...coordinates}/></td>
       <td>{distance}</td>
       <td>{duration}</td>
-      {hasDiscount ?
-        <td>{price}<Badge title={"Цената е с отстъпка"} pill>{appliedDiscount}</Badge></td>
-        : <td>{price}</td>}
+      <td>{price} {hasDiscount && (<Badge title={"Цената е с отстъпка"} pill>{appliedDiscount}</Badge>)}</td>
       <td>{tripCost}</td>
       <td>{totalCost}</td>
     </tr>

@@ -1,5 +1,5 @@
 export function toPetrolStationViewModel({
-                                           id, coordinates, brand, name, tripCost,
+                                           id, coordinates, city, address, brand, name, tripCost,
                                            totalCost, drivingInfo: { distance, duration },
                                            priceInformation: { price, discount }
                                          }) {
@@ -9,6 +9,7 @@ export function toPetrolStationViewModel({
     coordinates,
     hasDiscount: discount > 0,
     brand: brand.name,
+    address: `${address}, ${city}`,
     appliedDiscount: `${discount.toFixed(2)} лв.`,
     tripCost: `${tripCost.toFixed(2)} лв.`,
     totalCost: `${totalCost.toFixed(2)} лв.`,

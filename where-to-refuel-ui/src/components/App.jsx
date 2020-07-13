@@ -55,12 +55,13 @@ class App extends Component {
     this.setState({ discounts });
   }
 
-  handleSortKeyChange(sortKey) {
-    let sameSortKey = this.state.sortKey === sortKey;
+  handleSortKeyChange(newSortKey) {
+    const { sortKey, ascending } = this.state;
+    let sameSortKey = sortKey === newSortKey;
     if (sameSortKey) {
-      this.setState({ sortKey, ascending: !this.state.ascending });
+      this.setState({ sortKey: newSortKey, ascending: !ascending });
     } else {
-      this.setState({ sortKey, ascending: true })
+      this.setState({ sortKey: newSortKey, ascending: true })
     }
   }
 

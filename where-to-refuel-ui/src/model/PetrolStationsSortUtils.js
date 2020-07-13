@@ -12,10 +12,9 @@ function buildKeyExtractor(path) {
   }
 
   return function (object) {
+    let propsInPath = path.split(".");
 
-    let props = path.split(".");
-
-    for (let prop of props) {
+    for (let prop of propsInPath) {
       object = object[prop];
     }
 

@@ -4,10 +4,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
@@ -18,9 +20,9 @@ class PetrolStationsByFuelTypeHtmlParserTest {
   private static String testData;
 
   @BeforeAll
-  static void setup() throws IOException {
+  static void setup() throws IOException, URISyntaxException {
     ClassLoader classLoader = PetrolStationsByFuelTypeHtmlParserTest.class.getClassLoader();
-    Path path = Paths.get(classLoader.getResource("near_gasstations_fuel_type.html").getPath());
+    Path path = Paths.get(Objects.requireNonNull(classLoader.getResource("near_gasstations_fuel_type.html")).toURI());
     testData = Files.readString(path);
   }
 

@@ -7,5 +7,6 @@ import where.to.refuel.server.model.UserLog;
 
 public interface UserLogService {
   void logUserInfo(Coordinates location, FuelType fuelType, String ipAddress);
+
   Flowable<UserLog> retrieveSearchLogs();
 }

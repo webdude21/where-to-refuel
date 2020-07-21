@@ -75,6 +75,10 @@ class BingRouteServiceTest extends IntegrationTest {
   @Inject
   private BingRouteService bingRouteService;
 
+  private static Location createTestLocation(Coordinates coordinates) {
+    return new Location(0, "Petrol Station", "Sofia", "My Street", coordinates, 21.12);
+  }
+
   @Test
   void findDrivingInformationFor() {
     var testLocations = TEST_COORDINATES.stream()
@@ -87,9 +91,5 @@ class BingRouteServiceTest extends IntegrationTest {
     actual.forEach(location -> assertNotNull(location.getDrivingInfo()));
     assertThat(actual, hasSize(50));
     assertIterableEquals(testLocations, actual);
-  }
-
-  private static Location createTestLocation(Coordinates coordinates) {
-    return new Location(0, "Petrol Station", "Sofia", "My Street", coordinates, 21.12);
   }
 }

@@ -2,6 +2,7 @@ package where.to.refuel.server.model.repository;
 
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoCollection;
 import io.reactivex.Flowable;
 import org.bson.Document;
 import where.to.refuel.server.model.Coordinates;
@@ -16,6 +17,12 @@ import java.util.Date;
 @Singleton
 public class UserLogRepository {
 
+  private static final String REQUESTED_ON = "requestedOn";
+  private static final String LOCATION = "location";
+  private static final String FUEL_TYPE = "fuelType";
+  private static final String IP_ADDRESS = "ipAddress";
+  private static final String LATITUDE = "latitude";
+  private static final String LONGITUDE = "longitude";
   private static final String USER_INFO_COLLECTION = "user_info_log";
   private static final String DATABASE_NAME = "heroku_5kk33l34";
   private final MongoClient mongoClient;
@@ -26,25 +33,28 @@ public class UserLogRepository {
   }
 
   public Flowable<InsertOneResult> logUserInfo(UserLog userLog) {
-    var collection = mongoClient.getDatabase(DATABASE_NAME).getCollection(USER_INFO_COLLECTION);
+    var collection = getUserCollection();
     Document document = new Document();
-    document.put("requestedOn", userLog.getRequestedOn());
-    document.put("location", userLog.getLocation());
-    document.put("fuelType", userLog.getFuelType());
-    document.put("ipAddress", userLog.getIpAddress());
+    document.put(REQUESTED_ON, userLog.getRequestedOn());
+    document.put(LOCATION, userLog.getLocation());
+    document.put(FUEL_TYPE, userLog.getFuelType());
+    document.put(IP_ADDRESS, userLog.getIpAddress());
     return Flowable.fromPublisher(collection.insertOne(document));
   }
 
   public Flowable<UserLog> findAllUserLogs() {
-    var collection = mongoClient.getDatabase(DATABASE_NAME).getCollection(USER_INFO_COLLECTION);
-    return Flowable.fromPublisher(collection.find()).map(this::from);
+    return Flowable.fromPublisher(getUserCollection().find()).map(this::from);
+  }
+
+  private MongoCollection<Document> getUserCollection() {
+    return mongoClient.getDatabase(DATABASE_NAME).getCollection(USER_INFO_COLLECTION);
   }
 
   private UserLog from(Document document) {
-    var locationDocument = document.get("location", Document.class);
-    var location = Coordinates.of(locationDocument.getDouble("latitude"), locationDocument.getDouble("longitude"));
-    var requestedOn = document.get("requestedOn", Date.class);
+    var locationDocument = document.get(LOCATION, Document.class);
+    var location = Coordinates.of(locationDocument.getDouble(LATITUDE), locationDocument.getDouble(LONGITUDE));
+    var requestedOn = document.get(REQUESTED_ON, Date.class);
     var requestedOnAsLocalDate = LocalDateTime.ofInstant(requestedOn.toInstant(), ZoneId.systemDefault());
-    return UserLog.of(location, document.getString("fuelType"), document.getString("ipAddress"), requestedOnAsLocalDate);
+    return UserLog.of(location, document.getString(FUEL_TYPE), document.getString(IP_ADDRESS), requestedOnAsLocalDate);
   }
 }

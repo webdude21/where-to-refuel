@@ -1,9 +1,7 @@
 plugins {
-    id "io.freefair.lombok" version "5.0.1"
+    id "io.freefair.lombok" version "6.0.0-m2"
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "java"
-    id "net.ltgt.apt-eclipse" version "0.21"
-    id "net.ltgt.apt-idea" version "0.21"
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
 }
@@ -12,12 +10,12 @@ version "0.1"
 group "where.to.refuel.server"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('14')
-    targetCompatibility = JavaVersion.toVersion('14')
+    sourceCompatibility = JavaVersion.toVersion('16')
+    targetCompatibility = JavaVersion.toVersion('16')
 }
 
 configurations {
@@ -60,10 +58,6 @@ test {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
-}
-
-shadowJar {
-    mergeServiceFiles()
 }
 
 tasks.withType(JavaExec) {

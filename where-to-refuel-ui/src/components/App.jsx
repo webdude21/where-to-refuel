@@ -12,7 +12,6 @@ import { DiscountTable } from "./DiscountTable";
 import { Nav, NavItem, NavLink, Spinner, TabContent, TabPane } from "reactstrap";
 import classnames from "classnames";
 import { applyDiscount, mergeDiscountModel, updateDiscountModel } from "../model/Discount";
-import { AdminPanel } from "./AdminPanel";
 
 class App extends Component {
 
@@ -76,7 +75,7 @@ class App extends Component {
   }
 
   render() {
-    const { fuelAmount, twoWayTrip, fuelConsumption, selectedFuel, discounts, isLoading, showAdminPanel } = this.state;
+    const { fuelAmount, twoWayTrip, fuelConsumption, selectedFuel, discounts, isLoading } = this.state;
     const nearByPetrolStationsViewModel = this.getPetrolStations();
 
     return (
@@ -90,11 +89,6 @@ class App extends Component {
             <NavLink className={classnames({ active: this.state.activeTab === '2' })}
                      onClick={() => this.toggle('2')}>Отстъпки</NavLink>
           </NavItem>
-          {showAdminPanel &&
-          <NavItem>
-            <NavLink className={classnames({ active: this.state.activeTab === '3' })}
-                     onClick={() => this.toggle('3')}>Администратитвен Панел</NavLink>
-          </NavItem>}
           {isLoading && <Spinner className="spinner" color="primary"/>}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
@@ -111,10 +105,6 @@ class App extends Component {
           <TabPane tabId="2">
             <DiscountTable discounts={discounts} discountChange={this.handleDiscountChange}/>
           </TabPane>
-          {showAdminPanel &&
-          <TabPane tabId="3">
-            <AdminPanel/>
-          </TabPane>}
         </TabContent>
       </>
     );

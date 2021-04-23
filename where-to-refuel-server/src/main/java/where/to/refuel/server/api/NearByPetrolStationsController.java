@@ -12,25 +12,21 @@ import where.to.refuel.server.model.FuelType;
 import where.to.refuel.server.model.PetrolStation;
 import where.to.refuel.server.model.service.FueloServiceClient;
 import where.to.refuel.server.model.service.PetrolStationsService;
-import where.to.refuel.server.model.service.UserLogService;
 
 import javax.inject.Inject;
 
 import static io.micronaut.http.HttpHeaders.CACHE_CONTROL;
 import static io.micronaut.http.HttpResponse.ok;
-import static where.to.refuel.server.util.HttpUtils.extractIpAddress;
 
 @Controller("/near-by-petrol-stations")
 public class NearByPetrolStationsController {
 
   private static final String CACHE_FOR_6_HOURS = "public, immutable, max-age=21600";
   private final PetrolStationsService petrolStationsService;
-  private final UserLogService userLogService;
 
   @Inject
-  public NearByPetrolStationsController(FueloServiceClient fuelPriceService, UserLogService userLogService) {
+  public NearByPetrolStationsController(FueloServiceClient fuelPriceService) {
     this.petrolStationsService = fuelPriceService;
-    this.userLogService = userLogService;
   }
 
   @Get(value = "/{?requestTO*}", produces = MediaType.APPLICATION_JSON)
@@ -38,7 +34,6 @@ public class NearByPetrolStationsController {
                                                                         final HttpRequest<?> httpRequest) {
     var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
     var fuelType = FuelType.valueOf(requestTO.getFuel());
-    userLogService.logUserInfo(location, fuelType, extractIpAddress(httpRequest));
     var result = petrolStationsService.findByLocationAndFuelType(location, fuelType);
     return ok(result).header(CACHE_CONTROL, CACHE_FOR_6_HOURS);
   }

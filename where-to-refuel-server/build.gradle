@@ -14,8 +14,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('16')
-    targetCompatibility = JavaVersion.toVersion('16')
+    sourceCompatibility = JavaVersion.toVersion('11')
+    targetCompatibility = JavaVersion.toVersion('11')
 }
 
 configurations {
@@ -58,6 +58,10 @@ test {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
+}
+
+shadowJar {
+    mergeServiceFiles()
 }
 
 tasks.withType(JavaExec) {

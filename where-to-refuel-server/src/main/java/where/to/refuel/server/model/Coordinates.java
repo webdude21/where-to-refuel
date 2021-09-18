@@ -31,7 +31,7 @@ public class Coordinates {
       throw new IllegalArgumentException("Latitude should be a number between -90 and 90.");
     }
 
-    if (longitude < -180 || latitude > 180) {
+    if (longitude < -180 || longitude > 180) {
       throw new IllegalArgumentException("Longitude should be a number between -180 and 180.");
     }
   }

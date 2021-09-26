@@ -2,7 +2,7 @@ plugins {
     id "io.freefair.lombok" version "6.0.0-m2"
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "java"
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "application"
 }
 
@@ -14,8 +14,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('11')
-    targetCompatibility = JavaVersion.toVersion('11')
+    sourceCompatibility = JavaVersion.toVersion('17')
+    targetCompatibility = JavaVersion.toVersion('17')
 }
 
 configurations {

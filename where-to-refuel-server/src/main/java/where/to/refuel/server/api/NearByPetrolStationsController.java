@@ -1,6 +1,5 @@
 package where.to.refuel.server.api;
 
-import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -30,8 +29,7 @@ public class NearByPetrolStationsController {
   }
 
   @Get(value = "/{?requestTO*}", produces = MediaType.APPLICATION_JSON)
-  public HttpResponse<Flowable<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO requestTO,
-                                                                        final HttpRequest<?> httpRequest) {
+  public HttpResponse<Flowable<PetrolStation>> findNearByPetrolStations(final NearByPetrolStationsRequestTO requestTO) {
     var location = Coordinates.of(requestTO.getLatitude(), requestTO.getLongitude());
     var fuelType = FuelType.valueOf(requestTO.getFuel());
     var result = petrolStationsService.findByLocationAndFuelType(location, fuelType);
